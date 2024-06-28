@@ -1,0 +1,97 @@
+﻿@model greenfrog.Models.DichVu
+
+@{
+    ViewBag.Title = "XoaLichHen";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="body">
+    <div class="col-lg-12 pl-3">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.hoten)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.hoten)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.sdt)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.sdt)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.diachi)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.diachi)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.trangthai)
+            </dt>
+
+            <dd>
+                @if (Model.trangthai == "đang chờ")
+                {
+                    <div style="color: #007bff;">@Model.trangthai</div>
+                }
+                else if (Model.trangthai == "chờ khách đến")
+                {
+                    <div style="color: green;">@Model.trangthai</div>
+                }
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.tendichvu)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tendichvu)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ngaydat)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ngaydat)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.makh)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.makh)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Quay lại", "LichHen")
+            </div>
+        }
+    </div>
+
+</div>
+
+

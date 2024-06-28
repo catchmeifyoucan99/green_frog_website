@@ -1,0 +1,83 @@
+﻿@model IEnumerable<greenfrog.Models.DichVu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="body fix-width scroll-inner" style="height:600px">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.hoten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sdt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.diachi)
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>Tên loại dịch vụ</th>
+            <th>
+                @Html.DisplayNameFor(model => model.ngaydat)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hoten)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sdt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.diachi)
+                </td>
+                <td>
+                    @if (item.trangthai == "đang chờ")
+                    {
+                        <div style="color: #007bff;">@item.trangthai</div>
+
+                    }
+                    else if (item.trangthai == "chờ khách đến")
+                    {
+                        <div style="color: green;">@item.trangthai</div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tendichvu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngaydat)
+                </td>
+                <td>
+                    @if (item.trangthai == "đang chờ")
+                    {
+                        <span>@Html.ActionLink("hủy lịch hẹn", "HuyDichVu", new { id = item.iddichvu })</span>
+
+                    }
+                    else if (item.trangthai == "chờ khách đến")
+                    {
+                        <span></span>
+                    }
+
+                </td>
+            </tr>
+        }
+
+        <div class="text-danger">@Html.Raw(TempData["thongbao1"])</div>
+    </table>
+
+</div>

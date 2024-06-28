@@ -1,0 +1,53 @@
+﻿@model IEnumerable<greenfrog.Models.LiveStream>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .livecard{
+        border-radius: 20px;
+        position: relative;
+        display: inline-block;
+    }
+        .livecard > h4 {
+            position: absolute;
+            padding: 10px 7px;
+            margin-bottom: 0;
+            bottom: 0px;
+            font-size: 18px;
+            text-decoration: none;
+            color: white;
+            background: radial-gradient(black, transparent);
+        }
+    .liveimg {
+        height: 300px;
+        width: 210px;
+        border-radius: 20px;
+    }
+        .bt-90{
+            margin-bottom: 70px;
+        }
+</style>
+
+<div class="body">
+    <h3>
+        Live Stream
+    </h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-3 bt-90">
+                <a href="@item.link" class="livecard">
+                    <h4>@item.noidunglive</h4>
+                    <img class="liveimg" src="@item.hinh" />
+                </a>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+

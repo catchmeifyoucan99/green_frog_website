@@ -1,0 +1,50 @@
+﻿@model greenfrog.Models.KhachHang
+
+@{
+    ViewBag.Title = "DangNhap";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="login-form">
+    <div class="height360">
+        <div class="main">
+            <form action="" method="POST" class="form" id="form-2">
+                <h3 class="heading">LOGIN</h3>
+
+                <h4 class="text-danger">@ViewBag.msg</h4>
+                <h4 class="text-danger"> @ViewData["blockAccount"]</h4>
+
+                <div class="form-group">
+                    <label for="Fullname" class="form-label">Tên tài khoản</label>
+                    @Html.EditorFor(model => model.tendangnhap, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.tendangnhap, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    @Html.EditorFor(model => model.matkhau, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                    @Html.ValidationMessageFor(model => model.matkhau, "", new { @class = "text-danger" })
+                    <span class="form-message"></span>
+                </div>
+
+                
+                <button type="submit" class="form-submit" value="Login" name="login_submit">Đăng nhập</button>
+
+                <div class="dont-have-account">
+                    Bạn chưa có tài khoản? <a class="account-register" href="@Url.Action("DangKy", "NguoiDung")">Đăng ký ngay</a>
+                </div>
+                <div class="dont-have-account">
+                    Quên mật khẩu? <a class="account-register" href="@Url.Action("ForgotPassword", "NguoiDung")">Lấy lại mật khẩu</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}

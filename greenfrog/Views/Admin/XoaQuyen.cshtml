@@ -1,0 +1,74 @@
+﻿@model greenfrog.Models.KhachHang
+
+@{
+    ViewBag.Title = "XoaQuyen";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="col-lg-12 p-3">
+    <h3>Bạn có thật sự muốn xóa?</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hoten)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hoten)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diachi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diachi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dienthoai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dienthoai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaysinh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaysinh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoleID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color d-flex">
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <div>
+            @Html.ActionLink("Quay lại", "ChiaQuyen", null, new { @class = "btn btn-default ml-2" })
+        </div>
+    </div>
+
+    }
+</div>

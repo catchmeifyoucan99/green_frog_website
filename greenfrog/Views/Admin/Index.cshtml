@@ -1,0 +1,135 @@
+﻿@model PagedList.IPagedList<greenfrog.Models.SanPham>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    #chart_container {
+        border: 1px solid #ddd;
+        padding: 1px;
+        border-radius: 4px;
+    }
+</style>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@String.Format("{0:N0}", @ViewBag.TongDoanhThu)</h3>
+
+                            <p>Tổng Doanh Thu</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion-social-usd-outline"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>@ViewBag.TongDDH</h3>
+
+                            <p>Tổng Đơn Hàng</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion-android-cart"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.TongKhachHang</h3>
+
+                            <p>Thành Viên</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion-ios-people"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3>@ViewBag.SoNguoiTruyCap</h3>
+
+                            <p>Số lượng truy cập</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-eye"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3>@ViewBag.Online</h3>
+
+                            <p>Đang Online</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <section class="col-lg-12">
+                    <div id="chart_container">
+                        <canvas id="chartProduct"></canvas>
+                    </div>
+                </section>
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+
+<script>
+    var ctx = document.getElementById('chartProduct')
+
+    var reparray = @Html.Raw(Json.Encode(ViewBag.REP));
+    var ages = @Html.Raw(Json.Encode(ViewBag.AGES));
+
+    var barChartData = {
+        labels: ages, //thang hien thi o hang x
+        datasets: [
+            {
+                label: 'Tổng bán được',
+                backgroundColor: '#0b9663',
+                //borderColor: red,
+                borderWidth: 1,
+                data: reparray //gia tri cot y
+            }
+        ]
+    };
+
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: barChartData
+    });
+</script>

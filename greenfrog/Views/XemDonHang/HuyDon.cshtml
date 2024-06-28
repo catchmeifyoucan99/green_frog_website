@@ -1,0 +1,62 @@
+﻿@model greenfrog.Models.DonHang
+
+@{
+    ViewBag.Title = "HuyDon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="body p-3 mt-5">
+    <h4>Bạn có muốn hủy đơn hàng này không?</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.thanhtoan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thanhtoan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giaohang)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giaohang)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaydat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaydat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaygiao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaygiao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.makh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.makh)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Quay lại", "Index")
+        </div>
+    }
+</div>

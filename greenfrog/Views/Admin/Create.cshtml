@@ -1,0 +1,298 @@
+﻿@model greenfrog.Models.SanPham
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 padding-8">
+
+    @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="menu_option-head2">Thêm sản phẩm</div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Tên sản phẩm (*)</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.tensp, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.tensp, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Hình đại diện (*)</label>
+                <div class="col-md-10">
+
+                    <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                           style="border: none; margin-top: 10px;" required />
+                    <div id="fileUploadSpan" style=" color: red; display: block; margin-top: 10px;"></div>
+
+                    <img src="" id="pictureUpload" style="height: 200px;" />
+
+                    <input class="form-control text-box single-line" id="hinh" name="hinh" type="text" value="" disabled required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2">Thư viện ảnh</label>
+
+                <div class="col-md-4">
+                    <input style="visibility: hidden; display: block;" id="hinh1" name="hinh1" type="text" value="">
+                    <input type="file" id="uploadhinh" name="uploadhinh" accept="image/*" />
+                    <!--<div id="fileUploadSpan1" style=" color: red; display: block; margin-top: 10px;"></div>-->
+                    <input type="hidden" name="imageData" id="imageData" />
+
+                    <div style="display: flex; padding-top: 20px; height: 200px;">
+                        <canvas id="canvas" width="0" height="0"></canvas>
+                        <div id="afterConvert"></div>
+                    </div>
+
+                    <div class="status">
+                        <label for="GaussianAlgorithm">Làm mờ (mịn) gauss</label>
+                        <input type="range" min="0" max="10" value="0" id="GaussianAlgorithm" oninput="realTimeRangeForGauss(this.value)">
+
+                        <span id="currentValueGauss" class="currentValue">0</span>
+                    </div>
+
+                </div>
+
+                <label class="col-md-2">Thư viện ảnh 2</label>
+                <div class="col-md-4">
+                    <input style="visibility: hidden; display: block;" id="hinh2" name="hinh2" type="text" value="">
+                    <input type="file" id="uploadhinh1" name="uploadhinh1" accept="image/*" />
+                    <img src="" id="imguploadhinh1" style="height: 200px;" />
+                    <div id="fileUploadSpan2" style=" color: red; display: block; margin-top: 10px;"></div>
+                </div>
+
+                <label class="col-md-2">Thư viện ảnh 3</label>
+                <div class="col-md-4">
+                    <input style="visibility: hidden; display: block;" id="hinh3" name="hinh3" type="text" value="">
+                    <input type="file" id="uploadhinh2" name="uploadhinh2" accept="image/*" />
+                    <img src="" id="imguploadhinh2" style="height: 200px;" />
+                    <div id="fileUploadSpan3" style=" color: red; display: block; margin-top: 10px;"></div>
+                </div>
+
+
+
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Giá bán (*)</label>
+
+                <h4 class="text-danger">@TempData["errorkhong"]</h4>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.giaban, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.giaban, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Giảm giá</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.giamgia, new { htmlAttributes = new { @class = "form-control", min = 0, max = 100, @Value = "0", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.giamgia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Danh mục (*)</label>
+                <div class="col-md-10">
+                    @Html.DropDownList("idDanhmuc", ViewBag.fulllist as SelectList, "Chọn danh mục", htmlAttributes: new { @name = "idDanhmuc", @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.idDanhmuc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Số lượng tồn</label>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.soluongton, new { htmlAttributes = new { @class = "form-control", @required = "required", min = 0, max = 1000, @Value = "0" } })
+                    @Html.ValidationMessageFor(model => model.soluongton, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2" for="tensp">Mô tả</label>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.mota, new { @class = "ckeditor" })
+                    @Html.ValidationMessageFor(model => model.mota, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" id="btnSave"/>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Quay lại", "QLSanPham")
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+
+    $("#btnSave").click(function () {
+        var form = $("#drawingForm");
+        var image = document.getElementById("canvas").toDataURL("image/png");
+        image = image.replace('data:image/png;base64,', '');
+        $("#imageData").val(image);
+        form.submit();
+    });
+</script>
+
+<script>
+    const fileinput = document.getElementById('uploadhinh')
+
+//const canvas = document.getElementById('canvas')
+
+//const ctx = canvas.getContext('2d')
+
+const srcImage = new Image
+
+let imgData = null
+
+let originalPixels = null
+
+//upload va hien file 1 hinh len
+fileinput.onchange = function (e) {
+  if (e.target.files && e.target.files.item(0)) {
+    srcImage.src = URL.createObjectURL(e.target.files[0])
+  }
+}
+
+//hien hinh len = canvas
+srcImage.onload = function () {
+  canvas.width = srcImage.width
+  canvas.height = srcImage.height
+  ctx.drawImage(srcImage, 0, 0, srcImage.width, srcImage.height)
+  imgData = ctx.getImageData(0, 0, srcImage.width, srcImage.height)
+  originalPixels = imgData.data.slice()
+}
+
+
+//real time range number
+
+function realTimeRangeForGauss(myValue){
+	document.getElementById("currentValueGauss").innerHTML = myValue;
+	if (myValue <= 0) {
+		ctx.clearRect(0, 0, srcImage.width, srcImage.height);
+		ctx.drawImage(srcImage, 0, 0, srcImage.width, srcImage.height)
+		imgData = ctx.getImageData(0, 0, srcImage.width, srcImage.height)
+		originalPixels = imgData.data.slice()
+	} else {
+		gauss(myValue);
+	}
+}
+
+
+
+
+//gauss
+
+	//tao mat na kernel 3x3
+function makeGaussKernel(sigma){
+	const GAUSSKERN = 3.0;
+	var dim = parseInt(Math.max(3.0, GAUSSKERN * sigma));
+	var sqrtSigmaPi2 = Math.sqrt(Math.PI*2.0)*sigma;
+	var s2 = 2.0 * sigma * sigma;
+	var sum = 0.0;
+
+	var kernel = new Float32Array(dim - !(dim & 1)); // Dua mat na ve so le
+	const half = parseInt(kernel.length / 2);
+	for (var j = 0, i = -half; j < kernel.length; i++, j++)
+	{
+	  kernel[j] = Math.exp(-(i*i)/(s2)) / sqrtSigmaPi2;
+	  sum += kernel[j];
+	}
+	// Bình thường hóa nhân gaussian để tránh làm tối/sáng hình ảnh
+	for (var i = 0; i < dim; i++) {
+	  kernel[i] /= sum;
+	}
+	return kernel;
+
+}
+/*
+	pixels -  Canvas pixles
+	kernel - mat na kernel
+	ch - kênh màu để áp dụng hiệu ứng làm mờ trên
+	gray - cờ để hiển thị hình ảnh RGB hoặc Grayscale
+*/
+function gauss_internal(pixels, kernel, ch, gray){
+	var data = pixels.data;
+	var w = pixels.width;
+	var h = pixels.height;
+	var buff = new Uint8Array(w*h);
+	var mk = Math.floor(kernel.length / 2);
+	var kl = kernel.length;
+
+	// B1: tinh tinh chap cot
+	for (var j = 0, hw = 0; j < h; j++, hw += w)
+	{
+	  for (var i = 0; i < w; i++)
+	  {
+		var sum = 0;
+		for (var k = 0; k < kl; k++)
+		{
+		  var col = i + (k - mk);
+		  col = (col < 0) ? 0 : ((col >= w) ? w - 1 : col);
+		  sum += data[(hw + col)*4 + ch]*kernel[k];
+		}
+		buff[hw + i] = sum;
+	  }
+	}
+
+	// B2: tinh tinh chap dong
+	for (var j = 0, offset = 0; j < h; j++, offset += w)
+	{
+	  for (var i = 0; i < w; i++)
+	  {
+		var sum = 0;
+		for (k = 0; k < kl; k++)
+		{
+		  var row = j + (k - mk);
+		  row = (row < 0) ? 0 : ((row >= h) ? h - 1 : row);
+		  sum += buff[(row*w + i)]*kernel[k];
+		}
+		var off = (j*w + i)*4;
+		(!gray) ? data[off + ch] = sum :
+				  data[off] = data[off + 1] = data[off + 2] = sum;
+	  }
+	}
+}
+
+
+//let sigma = x
+
+function gauss(sigma){
+	//var context = canvas.getContext('2d');
+	var pixels = ctx.getImageData(0, 0, srcImage.width, srcImage.height);
+
+	var kernel = makeGaussKernel(sigma);
+
+	// Làm mờ một kênh (RGB hoặc Grayscale)
+	for (var ch = 0; ch < 3; ch++){
+		gauss_internal(pixels, kernel, ch, false);
+	}
+	// Apply su thay doi
+	ctx.putImageData(pixels, 0, 0);
+}
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

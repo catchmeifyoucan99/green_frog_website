@@ -1,0 +1,131 @@
+footer {
+    background-color: rgb(52, 154, 75) !important;
+    min-height: unset!important;
+  }
+  .footer,
+  .footer__copyright {
+    height: 60px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer__title {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .footer__copyright {
+    background: #256128;
+  }
+  .footer__info {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .footer__info-content {
+    color: #fff;
+  }
+  .footer__info-content > h3 {
+    padding: 10px 0;
+  }
+  .footer__info-content > p {
+    line-height: 30px;
+    padding: 10px 0;
+  }
+  .footer__info-content > p > a {
+    text-decoration: none;
+    color: #fff;
+  }
+  .footer__info-content > p > a:hover {
+    text-decoration: underline;
+  }
+  .footer__social {
+    display: flex;
+  }
+  .footer__social > a {
+    text-decoration: none;
+    color: #fff;
+  }
+  .footer__social > a > i {
+    padding: 5px;
+    font-size: 22px;
+  } 
+
+  .padding-8{
+      padding: 0 16px;
+  }
+
+.MenuTrang li {
+    display: inline;
+}
+
+#mau-nut a {
+    clear: both;
+    background-color: orange;
+    color: snow;
+}
+
+#mau-nut a:hover {
+    background-color: darkcyan;
+    color: snow;
+}
+
+.fix-width {
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    margin-bottom: 0;
+    max-width: none;
+}
+
+@media (max-width: 768px) {
+    .fix-width {
+        width: auto;
+    }
+
+    .table {
+        width: 700px;
+    }
+
+    .paymentContent {
+        font-size: 15px;
+    }
+}
+
+.go-to-top {
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    right: 10px;
+    bottom: 200px;
+    cursor: pointer;
+    background: var(--mainColor);
+}
+
+    .go-to-top:hover {
+        opacity: 0.8;
+    }
+
+i.fas.fa-chevron-up {
+    padding: 10px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.f2{
+    font-size: 20px;
+}
+
+.f3{
+    font-size: 30px;
+}
+
+.f25{
+    font-size: 25px;
+}

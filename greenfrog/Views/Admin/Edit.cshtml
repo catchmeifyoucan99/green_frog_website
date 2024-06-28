@@ -1,0 +1,333 @@
+﻿@model greenfrog.Models.SanPham
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 padding-8">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="menu_option-head2">Sửa sản phẩm</div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.masp)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tensp, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tensp, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.tensp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <strong>Hình đại diện @Html.EditorFor(model => model.hinh, new { htmlAttributes = new { @class = "form-control", @required = "required" } })</strong>
+            </div>
+
+            <div class="col-md-10">
+
+                <img src="@Model.hinh" id="pictureUpload" height="200px" />
+
+                <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                       style="border: none;" />
+                <div id="fileUploadSpan" style=" color: red; display: block; margin-top: 10px;"></div>
+            </div>
+        </div>
+
+        @if (Model.idthuvien == null)
+        {
+            <div></div>
+        }
+        else
+        {
+    <div class="form-group">
+        <label class="col-md-2">Thư viện ảnh</label>
+
+        @foreach (var item in ViewBag.listsp)
+        {
+            <div class="col-md-4">
+                <img src="@item.thuvienanh.img1" id="pictureUpload1" height="200px" />
+
+                <input class="form-control text-box single-line" id="hinh1" name="hinh1" type="text" value="@item.thuvienanh.img1">
+
+                <input type="file" id="uploadhin" name="uploadhin" accept="image/*" />
+                <div id="fileUploadSpa1" style=" color: red; display: block; margin-top: 10px;"></div>
+            </div>
+
+            <label class="col-md-2">Thư viện ảnh 2</label>
+            <div class="col-md-4">
+                <img src="@item.thuvienanh.img2" id="pictureUpload2" height="200px" />
+
+                <input class="form-control text-box single-line" id="hinh2" name="hinh2" type="text" value="@item.thuvienanh.img2">
+
+                <input type="file" id="uploadhin1" name="uploadhin1" accept="image/*" />
+                <div id="fileUploadSpa2" style=" color: red; display: block; margin-top: 10px;"></div>
+            </div>
+
+            <label class="col-md-2">Thư viện ảnh 3</label>
+            <div class="col-md-4">
+                <img src="@item.thuvienanh.img3" id="pictureUpload3" height="200px" />
+
+                <input class="form-control text-box single-line" id="hinh3" name="hinh3" type="text" value="@item.thuvienanh.img3">
+
+                <input type="file" id="uploadhin2" name="uploadhin2" accept="image/*" />
+                <div id="fileUploadSpa3" style=" color: red; display: block; margin-top: 10px;"></div>
+            </div>
+
+        }
+
+    </div>
+        }
+
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script>
+
+            //upload hinh dai dien sua lai
+
+            $('#fileUpload').change(function () {
+                let input = document.getElementById('fileUpload');
+                let span = document.getElementById('fileUploadSpan');
+
+                let files = input.files;
+
+                if (files.length > 0) {
+                    if (files[0].size > 1000 * 1024) {
+                        span.innerText = 'Ảnh tối đa không được quá 1mb';
+                        $('#pictureUpload').attr('src', null);
+                        $('#hinh').val(null);
+                        $('#hinh').attr('required', true);
+                        return;
+                    }
+                }
+                //else {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#fileUpload').get(0);
+                    var filess = fileUpload.files;
+                    var formData = new FormData();
+                    formData.append('file', filess[0]);
+
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Admin/ProcessUpload',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+
+                                $('#pictureUpload').attr('src', urlImage);
+                                $('#hinh').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Error ', err.statusText);
+                            }
+                        });
+                }
+                //}
+
+                span.innerText = '';
+            });
+
+            //upload thu vien anh 1
+
+            $('#uploadhin').change(function () {
+                let input = document.getElementById('uploadhin');
+                let span = document.getElementById('fileUploadSpa1');
+
+                let files = input.files;
+
+                if (files.length > 0) {
+                    if (files[0].size > 1000 * 1024) {
+                        span.innerText = 'Ảnh tối đa không được quá 1mb';
+                        $('#pictureUpload1').attr('src', null);
+                        $('#hinh1').val(null);
+                        $('#hinh1').attr('required', true);
+                        return;
+                    }
+                }
+                //else {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#uploadhin').get(0);
+                    var filess = fileUpload.files;
+                    var formData = new FormData();
+                    formData.append('file', filess[0]);
+
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Admin/ProcessUpload',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+
+                                $('#pictureUpload1').attr('src', urlImage);
+                                $('#hinh1').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Error ', err.statusText);
+                            }
+                        });
+                }
+                //}
+
+                span.innerText = '';
+            });
+
+            //upload thu vien anh 2
+
+            $('#uploadhin1').change(function () {
+                let input = document.getElementById('uploadhin1');
+                let span = document.getElementById('fileUploadSpa2');
+
+                let files = input.files;
+
+                if (files.length > 0) {
+                    if (files[0].size > 1000 * 1024) {
+                        span.innerText = 'Ảnh tối đa không được quá 1mb';
+                        $('#pictureUpload2').attr('src', null);
+                        $('#hinh2').val(null);
+                        $('#hinh2').attr('required', true);
+                        return;
+                    }
+                }
+                //else {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#uploadhin1').get(0);
+                    var filess = fileUpload.files;
+                    var formData = new FormData();
+                    formData.append('file', filess[0]);
+
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Admin/ProcessUpload',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+
+                                $('#pictureUpload2').attr('src', urlImage);
+                                $('#hinh2').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Error ', err.statusText);
+                            }
+                        });
+                }
+                //}
+
+                span.innerText = '';
+            });
+
+            //upload thu vien anh 3
+
+            $('#uploadhin2').change(function () {
+                let input = document.getElementById('uploadhin2');
+                let span = document.getElementById('fileUploadSpa3');
+
+                let files = input.files;
+
+                if (files.length > 0) {
+                    if (files[0].size > 1000 * 1024) {
+                        span.innerText = 'Ảnh tối đa không được quá 1mb';
+                        $('#pictureUpload3').attr('src', null);
+                        $('#hinh3').val(null);
+                        $('#hinh3').attr('required', true);
+                        return;
+                    }
+                }
+                //else {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#uploadhin2').get(0);
+                    var filess = fileUpload.files;
+                    var formData = new FormData();
+                    formData.append('file', filess[0]);
+
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Admin/ProcessUpload',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+
+                                $('#pictureUpload3').attr('src', urlImage);
+                                $('#hinh3').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Error ', err.statusText);
+                            }
+                        });
+                }
+                //}
+
+                span.innerText = '';
+            });
+        </script>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.giaban, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.giaban, new { htmlAttributes = new { @class = "form-control", @type="number" } })
+                @Html.ValidationMessageFor(model => model.giaban, "", new { @class = "text-danger" })
+                <h4 class="text-danger">@TempData["msg"]</h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.giamgia, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.giamgia, new { htmlAttributes = new { @class = "form-control", min = 0, max = 100, @required = "required" } })
+                @Html.ValidationMessageFor(model => model.giamgia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.idDanhmuc, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                <h4 class="text-danger">@Html.Raw(TempData["thongbaokocolist"])</h4>
+                @Html.DropDownList("idDanhmuc", ViewBag.fulllist as SelectList, "Chọn danh mục", htmlAttributes: new { @name = "idDanhmuc", @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.idDanhmuc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.soluongton, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.soluongton, new { htmlAttributes = new { @class = "form-control", min = 0, max = 1000, @required = "required" } })
+                @Html.ValidationMessageFor(model => model.soluongton, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.mota, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.mota, new { @class = "ckeditor" })
+                @Html.ValidationMessageFor(model => model.mota, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-actions no-color d-flex p-2">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <div>
+                @Html.ActionLink("Quay lại", "QLSanPham", null, new { @class = "btn btn-default ml-2" })
+            </div>
+        </div>
+    </div>
+    }
+
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

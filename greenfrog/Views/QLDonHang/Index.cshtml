@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<greenfrog.Models.DonHang>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 padding-8">
+    <div class="d-flex justify-content-between">
+        <h2>Quản lý đơn hàng</h2>
+        @using (Html.BeginForm("Index", "QLDonHang", FormMethod.Post))
+        {
+            <h3>Tìm kiếm đơn theo ngày đặt</h3>
+            <input type="date" name="DonTheoNgay" required />
+
+            <input type="submit" value="Kiểm tra" />
+        }
+    </div>
+
+    <div class="body fix-width scroll-inner">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Mã kh
+                </th>
+                <th>
+                    Thanh toán
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th>
+                    Ngày đặt
+                </th>
+                <th>
+                    Ngày giao
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.makh)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.thanhtoan)
+                    </td>
+                    <td>
+                        @if (item.giaohang == "chờ xử lý")
+                        {
+                            <div style="color: #007bff;">@item.giaohang</div>
+                        }
+                        else if (item.giaohang == "đang xử lý")
+                        {
+                            <div style="color: orange;">@item.giaohang</div>
+                        }
+                        else if (item.giaohang == "đang giao")
+                        {
+                            <div style="color: forestgreen;">@item.giaohang</div>
+                        }
+                        else if (item.giaohang == "giao thành công")
+                        {
+                            <div style="color: green;">@item.giaohang</div>
+                        }
+                        else if (item.giaohang == "hủy")
+                        {
+                            <div style="color: red;">@item.giaohang</div>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ngaydat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ngaygiao)
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("DetailsCTDH", new { id = item.madon })" class="text-primary f2"><i class="fa-solid fa-eye"></i></a>&nbsp;
+                        <a href="@Url.Action("Edit", new { id = item.madon })" class="text-primary f2"><i class="fas fa-edit"></i></a>&nbsp;
+                        <a href="@Url.Action("Delete", new { id = item.madon })" class="text-primary f2"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <div class="MenuTrang">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                {
+                    page = page
+                }))
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Quay Lại", "Index", "QLDonHang")
+        </div>
+    </div>
+

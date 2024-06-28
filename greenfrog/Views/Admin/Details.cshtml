@@ -1,0 +1,127 @@
+﻿@model greenfrog.Models.SanPham
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="col-lg-12 padding-8">
+
+    <dl class="dl-horizontal" style="overflow: hidden;">
+        <div class="menu_option-head2">Chi tiết sản phẩm</div>
+        <hr />
+        <dt>
+            @Html.DisplayNameFor(model => model.idDanhmuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idDanhmuc)
+        </dd>
+
+        <dt>
+            Tên sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tensp)
+        </dd>
+
+        <dt>
+            Hình
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.hinh)" height="200px" />
+        </dd>
+
+        <dt>
+            Giá bán
+        </dt>
+
+        <dd>
+            @String.Format("{0:N0}", Model.giaban) vnđ
+        </dd>
+
+        <dt>
+            Ngày cập nhập
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaycapnhat)
+        </dd>
+
+        <dt>
+            số lượng tồn
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.soluongton)
+        </dd>
+
+        @foreach (var m in ViewBag.listSP)
+        {
+            <hr />
+
+            <dl class="dl-horizontal">
+                Số lượng bán được:
+                @if (@m.sanpham != null)
+                {
+                    @String.Format("{0:N0}", @ViewBag.TKTungSPSL)
+                }
+                else
+                {
+                    <span>0</span>
+                }
+            </dl>
+
+        }
+        <dl>
+            @if (@ViewBag.SLuotRate != null)
+            {
+                <div>Đánh giá trung bình: @String.Format("{0:0.00}", @ViewBag.SLuotRate) sao</div>
+            }
+            else
+            {
+                <span>Đánh giá trung bình: 0</span>
+            }
+
+        </dl>
+
+
+
+        <dl class="dl-horizontal">
+            Số lượng đánh giá 5 sao:
+            @if (ViewBag.CountRate != null)
+            {
+                @ViewBag.CountRate
+            }
+            else
+            {
+                <span>0</span>
+            }
+        </dl>
+
+
+        <dl class="dl-horizontal">
+            Tổng doanh thu:
+            @String.Format("{0:N0}", @ViewBag.TKTungSP) vnđ
+        </dl>
+
+        <dt>
+            mô tả
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.mota)
+        </dd>
+
+    </dl>
+
+
+    <p>
+        @Html.ActionLink("Sửa", "Edit", new { id = Model.masp }) |
+        @Html.ActionLink("Quay lại", "QLSanPham")
+    </p>
+</div>
+

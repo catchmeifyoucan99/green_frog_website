@@ -1,0 +1,528 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.4/jquery.rateyo.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.4/jquery.rateyo.min.js"></script>
+
+<style>
+    #rateYo {
+        width: unset !important;
+    }
+
+    .jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group > svg {
+        width: 25px !important;
+    }
+</style>
+
+<script src="~/Content/scripts/zoomsl.min.js"></script>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#rateYo').rateYo({
+            rating: 0,
+            numStars: 5,
+            maxValue: 5,
+            onChange: function (rating, rateYoInstance) {
+                $('#rating').val(rating);
+            }
+        })
+    })
+
+
+    //Zoom image Details product
+    jQuery(document).ready(function ($) {
+
+        $('.small-img img').click(function () {
+            var image = $(this).attr('src');
+            $('.big-img img').attr('src', image);
+        });
+
+        $('#zoom').imagezoomsl({
+            zoomrange: [5, 3]
+        });
+
+    });
+
+</script>
+
+
+<!-- Hiển thị chi tiết sản phẩm -->
+<div class="body" style="padding-top: 30px;">
+    <a class="buy_continute" href="~/SanPham/SanPham"><i class="fa fa-arrow-circle-left"></i> Trở lại mua hàng</a>
+    @foreach (var m in ViewBag.Main)
+    {
+        <div class="product__details row">
+            <div class="product__details-img col-lg-4 col-md-4">
+                <div class="big-img">
+                    <img src="@m.sanpham.hinh" alt="" id="zoom" style="visibility: visible;">
+                </div>
+                <div class="small-img d-flex mt-5">
+                    @foreach (var xm in ViewBag.thu)
+                    {
+                        <img src="@m.sanpham.hinh" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img1" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img2" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img3" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+
+                    }
+                </div>
+            </div>
+
+            <div class="product__details-info col-lg-8 col-md-8">
+                <h3 style="margin-top: unset; line-height: unset;">@m.sanpham.tensp</h3>
+                <div class="short-des">
+                    @Html.Raw(@m.sanpham.mota)
+
+                </div><hr />
+
+                <div class="product__pride">
+                    @if (@m.sanpham.giamgia == 0 || @m.sanpham.giamgia == null)
+                    {
+                        <div class="product__pride-newPride" style="font-size: 40px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giakhuyenmai)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product__pride-oldPride" style="font-size: 20px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giaban)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                        <div class="product__pride-newPride" style="font-size: 40px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giakhuyenmai)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    }
+
+                </div>
+
+                <form action="" method="POST">
+                    <!--
+                        <div class="number">
+                            <span>Số lượng</span>
+                            <div class="number__count">
+                                <input type="number" value="1" min="1" max="10" name="quantity">
+                                <input type="hidden" name="id" value="<?php echo $valueID['id_sanpham']; ?>">
+                            </div>
+                        </div>
+                    -->
+
+                    <div class="number">
+                        <span>
+                            Số lượng tồn
+                            <span class="number__count">
+                                @m.sanpham.soluongton
+                            </span>
+                        </span>
+
+                    </div>
+
+                    @if (m.sanpham.soluongton != 0)
+                    {
+                        <div class="product__cart">
+                            <a href="@Url.Action("ThemGioHang", "GioHang", new { @id = @m.sanpham.masp, @strURL = Request.Url.ToString() })" class="product__cart-add" name="add-to-cart">
+                                Thêm vào giỏ hàng
+                            </a>
+                            <h4 class="text-danger">@Html.Raw(TempData["themthanhcong"])</h4>
+                            <h4 class="text-danger">@Html.Raw(TempData["msg"])</h4>
+                            <h4 class="text-danger">@Html.Raw(TempData["kmua"])</h4>
+                            <a href="@Url.Action("MuaNgay", "GioHang", new { @id = @m.sanpham.masp, @strURL = Request.Url.ToString() })" class="product__cart-buy" name="buy-now">Mua ngay</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product__cart">
+                            <div class="product__cart-add" style="background: unset;">Tạm hết hàng</div>
+
+                        </div>
+                    }
+
+                </form>
+            </div>
+        </div>
+    }
+
+
+
+    <!--Mô tả sản phẩm-->
+
+    @*<style>
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            height: 30px;
+            outline: none;
+            padding: 0;
+            width: 30px;
+        }
+
+        #play {
+            background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/play.svg);
+        }
+
+            #play.played {
+                background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/play1.svg);
+            }
+
+        #pause {
+            background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/pause.svg);
+        }
+
+            #pause.paused {
+                background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/pause1.svg);
+            }
+
+        #stop {
+            background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/stop.svg);
+        }
+
+            #stop.stopped {
+                background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/stop1.svg);
+            }
+    </style>*@
+
+    <div class="body__mainTitle d-flex justify-content-between">
+        <h3>MÔ TẢ SẢN PHẨM </h3>
+
+        @*<div class=btnSpeechP>
+            <div>Đọc mô tả tự động</div>
+            <button class="btnSpeech" id=play></button> &nbsp;
+            <button class="btnSpeech" id=pause></button> &nbsp;
+            <button class="btnSpeech" id=stop></button>
+        </div>*@
+    </div>
+    <article style="width:100%;height:60px;background-color:whitesmoke;border-radius:7px;padding:6px 0 6px 10px">
+        @foreach (var m in ViewBag.Main)
+        {@Html.Raw(@m.sanpham.mota)}
+    </article>
+
+    
+
+    <!--ĐÁNH GIÁ SP-->
+    <div class="body__mainTitle" style="margin-top:30px">
+        <h3>ĐÁNH GIÁ SẢN PHẨM</h3>
+    </div>
+    <div class="mt-5" style="width:100%;height:60px;background-color:whitesmoke;border-radius:7px;padding:6px 0 6px 10px">
+        @if (@ViewBag.SLuotRate != null)
+        {
+            <div class="ratingStar" style="color: #ee4d2d;">
+                <div class="d-flex align-items-end">
+                    <div style="font-size: 25px;">@String.Format("{0:0.00}", @ViewBag.SLuotRate)</div>
+                    <div class="pl-2 pr-2" style="font-size: 20px;">trên</div>
+                    <div style="font-size: 20px;"> 5</div>
+
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                </div>
+            </div>
+
+            <div style="color: #ee4d2d; font-size: 20px;">
+
+                @if (ViewBag.CountRate != null)
+                {
+                    <div>Số lượng đánh giá 5 sao: @ViewBag.CountRate</div>
+                }
+                else
+                {
+                    <span> </span>
+                }
+            </div>
+
+        }
+        else
+        {
+            <div style="color: #ee4d2d; font-size: 17px;">Chưa có đánh giá</div>
+        }
+
+    </div>
+
+
+
+    <!--Bình luận sản phẩm-->
+    <div class="body__mainTitle" style="margin-top:30px;">
+        <h3>BÌNH LUẬN</h3>
+    </div>
+    <div>
+        @foreach (var m in ViewBag.ViewDanhGia)
+        {
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <img src="~/Content/images/user.jpg" width="45" height="45" style="border-radius: 50%;" />
+                    <div class="pl-3">
+                        <b>@m.khachhang.hoten</b>
+                        <div style="line-height: 30px;">@m.danhgia.Content</div>
+                        <div>@String.Format("{0:dd/MM/yyyy hh:mm:s}", @m.danhgia.Ngaycapnhap)</div>
+                    </div>
+                </div>
+                @if (@m.danhgia.Rating != 0)
+                {
+                    <div>@m.danhgia.Rating <i class="fas fa-star text-warning"></i></div>
+                }
+            </div>
+
+            <hr />
+        }
+    </div>
+    @if (Session["Username"] == null)
+    {
+        <center><strong>Bạn phải <a href="@Url.Action("DangNhap","NguoiDung")">đăng nhập</a> để sử dụng chức năng này</strong></center><hr />
+    }
+
+    else
+    {
+        using (Html.BeginForm("SendDanhGia", "SanPham", FormMethod.Post))
+        {
+            <div class="d-flex justify-content-between align-items-center">
+                <div style="font-size:17px">Nội dung</div>
+                <div class="d-flex align-items-center">
+                    <input type="hidden" id="rating" name="rating" value="0" />
+                </div>
+            </div>
+            <textarea name="content" class="form-control" style="outline: none; margin-bottom: 5px;color:black;border-radius:10px;"></textarea>
+            <div>
+
+                <input style="background-color:forestgreen" class="btn btn-danger" type="submit" value="Gửi" />
+
+                <input data-val="true"
+                       data-val-number="The field id_sp must be a number."
+                       data-val-required="The id_sp field is required."
+                       id="id_sp"
+                       name="id_sp"
+                       type="hidden"
+                       value="0" />
+
+            </div>
+        }
+
+    }
+
+    <!-- Sản phẩm ngẫu nhiên -->
+    <div class="body__mainTitle" style="margin-top:50px">
+        <h3>NEW</h3>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.SelectedPostt)
+        {
+            <div class="col-lg-2_5 col-md-4 col-6">
+                <a href="@Url.Action("Details", "SanPham", new { id = @item.sanpham.masp })" class="product">
+                    <div class="product__img">
+                        <img src=" @item.sanpham.hinh" alt="">
+                    </div>
+                    @if (@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null)
+                    {
+                        <div class="product__sale">
+                            <h4>Mới</h4>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="product__sale">
+                            <h4> @item.sanpham.giamgia %</h4>
+                        </div>
+                    }
+                    <div class="product__content">
+                        <div class="product__title">
+                            @item.sanpham.tensp
+                        </div>
+
+                        @if (!(@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null))
+                        {
+                            <div class="product__pride-oldPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", @item.sanpham.giaban)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        }
+
+                    </div>
+                </a>
+
+                <div>
+                    <div class="product__pride-newPride">
+                        <span class="Price">
+                            <bdi>
+                                @String.Format("{0:N0}", @item.sanpham.giakhuyenmai)
+                                <span class="currencySymbol">₫</span>
+                            </bdi>
+                        </span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        }
+
+    </div>
+
+
+    <!-- Sản phẩm ngẫu nhiên -->
+    <div class="body__mainTitle" style="margin-top:50px">
+        <h3>Gợi ý sản phẩm</h3>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.Sub)
+        {
+        <div class="col-lg-2_5 col-md-4 col-6">
+            <a href="@Url.Action("Details", "SanPham", new { id = @item.sanpham.masp })" class="product">
+                <div class="product__img">
+                    <img src=" @item.sanpham.hinh" alt="">
+                </div>
+                @if (@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null)
+                {
+                    <div class="product__sale">
+                        <h4>Mới</h4>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="product__sale">
+                        <h4> @item.sanpham.giamgia %</h4>
+                    </div>
+                }
+                <div class="product__content">
+                    <div class="product__title">
+                        @item.sanpham.tensp
+                    </div>
+
+                    @if (!(@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null))
+                    {
+                        <div class="product__pride-oldPride">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @item.sanpham.giaban)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    }
+
+                </div>
+            </a>
+
+            <div>
+                <div class="product__pride-newPride">
+                    <span class="Price">
+                        <bdi>
+                            @String.Format("{0:N0}", @item.sanpham.giakhuyenmai)
+                            <span class="currencySymbol">₫</span>
+                        </bdi>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+
+        }
+
+
+    </div>
+
+</div>
+<!-- End Hiển thị chi tiết sản phẩm -->
+
+
+<script>
+    onload = function () {
+        if ('speechSynthesis' in window) with (speechSynthesis) {
+
+            var playEle = document.querySelector('#play');
+            var pauseEle = document.querySelector('#pause');
+            var stopEle = document.querySelector('#stop');
+            var flag = false;
+            var countSpeech = 0;
+
+            playEle.addEventListener('click', onClickPlay);
+            pauseEle.addEventListener('click', onClickPause);
+            stopEle.addEventListener('click', onClickStop);
+
+            var msg = new SpeechSynthesisUtterance();
+            msg.volume = 1; // âm lượng (1 - 10)
+            msg.rate = 1; // tốc độ nói (0.1 - 10) 
+            msg.pitch = 2; // độ cao (0 - 2) 
+            msg.lang = "vi-VN"; // set ngôn ngữ
+
+
+            function onClickPlay() {
+                if (!flag) {
+                    flag = true;
+                    msg.onend = function () {
+                        flag = false;
+                        playEle.className = pauseEle.className = '';
+                        stopEle.className = 'stopped';
+                    };
+                    playEle.className = 'played';
+                    stopEle.className = '';
+
+                    msg.text = document.querySelector('article').textContent;
+                    speechSynthesis.speak(msg); // có đủ rồi nói thôi
+
+                }
+                if (countSpeech == 2) { /* unpause/resume narration */
+                    playEle.className = 'played';
+                    pauseEle.className = '';
+                    speechSynthesis.resume();
+                    countSpeech = 0;
+                }
+            }
+
+            function onClickPause() {
+                if (speaking && !paused) { /* pause narration */
+                    pauseEle.className = 'paused';
+                    playEle.className = '';
+                    speechSynthesis.pause();
+                    countSpeech = 2;
+                }
+            }
+
+            function onClickStop() {
+                if (speaking) { /* stop narration */
+                    /* for safari */
+                    stopEle.className = 'stopped';
+                    playEle.className = pauseEle.className = '';
+                    flag = false;
+                    cancel();
+                    countSpeech = 0;
+                }
+            }
+
+
+        } else { /* speech synthesis not supported */
+            msg = document.createElement('h5');
+            msg.textContent = "Detected no support for Speech Synthesis";
+            msg.style.textAlign = 'center';
+            msg.style.backgroundColor = 'red';
+            msg.style.color = 'white';
+            msg.style.marginTop = msg.style.marginBottom = 0;
+            document.body.insertBefore(msg, document.querySelector('div'));
+        }
+    }
+</script>

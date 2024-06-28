@@ -1,0 +1,779 @@
+﻿@model greenfrog.Models.HomeModel
+@{
+    ViewBag.Title = "ListSanPham";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="slider" style="position:relative; margin:18px 90px">
+    <div class="mySlides">
+        <img src="~/Content/images/banner-main.png" style="width: 100%;height: 620px;border-radius: 10px;">
+    </div>
+    <div class="mySlides">
+        <img src="~/Content/images/new.jpg" style="width: 100%;height: 620px;border-radius: 10px;">
+    </div>
+    <div class="mySlides">
+        <img src="~/Content/images/discouting.jpg" style="width: 100%;height: 620px;border-radius: 10px;">
+    </div>
+    <div class="mySlides">
+        <img src="~/Content/images/slogann.jpg" style="width: 100%; height: 620px;border-radius:10px;">
+    </div>
+    <div class="banner--move">
+        <div onclick="plusSlides(-1)" class=" banner--move__left">
+            <i class="fa fa-chevron-left prev"></i>
+        </div>
+        <div onclick="plusSlides(1)" class="banner--move__right">
+            <i class="fa fa-chevron-right next"></i>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- product -->
+<!-- Sản phẩm nóng -->
+<div class="body">
+    <h2 style="display:flex;justify-content:center;padding-bottom:10px">HOT PRODUCTS</h2>
+    <div class="body__mainTitle">
+    </div>
+
+    <div class="post-slider2">
+        <i class="fa fa-chevron-left prev2" aria-hidden="true"></i>
+        <i class="fa fa-chevron-right next2" aria-hidden="true"></i>
+
+        <div class="row">
+            <div class="post-wrapper2">
+                @foreach (var item in Model.ListProduct.OrderByDescending(x => x.masp).Take(10))
+                {
+                    <div class="col-lg-2_5 col-md-4 col-6 post2">
+                        <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                            <div class="product">
+                                <div class="product__img">
+                                    <img src="@item.hinh" alt="">
+                                </div>
+                                @if (item.giamgia == 0 || item.giamgia == null)
+                                {
+                                    <div class="product__sale" style="background-color:orangered">
+                                        <h4>HOT</h4>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="product__sale">
+                                        <h4>@item.giamgia %</h4>
+                                    </div>
+                                }
+                                <div class="product__content">
+                                    <div class="product__title">
+                                        @Html.DisplayFor(modelItem => item.tensp)
+                                    </div>
+
+                                    @if (!(item.giamgia == 0 || item.giamgia == null))
+                                    {
+                                        <div class="product__pride-oldPride">
+                                            <span class="Price">
+                                                <bdi>
+                                                    @String.Format("{0:N0}", item.giaban)
+                                                    <span class="currencySymbol">₫</span>
+                                                </bdi>
+                                            </span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="product__pride-newPride">
+                                    <span class="Price">
+                                        <bdi>
+                                            @String.Format("{0:N0}", item.giakhuyenmai)
+                                            <span class="currencySymbol">₫</span>
+                                        </bdi>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="banner">
+    <h2 style="display:flex;justify-content:center">TELL WITH US</h2>
+    <div class="body__mainTitle" style="display:flex;justify-content:center;">
+    </div>
+
+    <div class="banner-top banner-top-2 row">
+        <div class="col-md-3 col-sm-6">
+            <a href="@Url.Action("Index", "Home")" class="banner-top-2-child" style="background-color: #5BAB7B;">
+                <div class="text-white">Về chúng tôi</div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <a href="@Url.Action("Index", "Home")" class="banner-top-2-child" style="background-color: #5C9CCA;">
+                <div class="text-white" style="margin: 0 auto;">Thông Tin Sản Phẩm</div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <a href="@Url.Action("Index", "Home")" class="banner-top-2-child" style="background-color: #C67B36;">
+                <div class="text-white" style="margin: 0 auto;">Trao đổi trực tuyến</div>
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <a href="@Url.Action("Index", "Home")" class="banner-top-2-child" style="background-color: #AB5D58;">
+                <div class="text-white">Sản phẩm độc quyền</div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Sản phẩm mới nhất -->
+<div class="body">
+    <div>
+        <h2 style="display:flex;justify-content:center">NEW PRODUCTS</h2>
+        <div class="body__mainTitle d-flex align-items-center" style="display:flex;justify-content:center">
+            <div class="d-flex justify-content-center align-items-center ml-5" style="font-size: 26px;">
+                <div id="newpro" class="text-secondary activeColor mr-3">GR Wood</div>
+                <div id="newpro2" class="text-secondary mr-3">GR Paper</div>
+                <div id="newpro3" class="text-secondary">GR Bamboo</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="newlist active">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 3))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:red">
+                                    <h4>NEW</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="newstyle">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 4))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:red">
+                                    <h4>NEW</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="newequi">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 5))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:red">
+                                    <h4>NEW</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+<div class="banner">
+    <div class="banner-top">
+        <img src="~/Content/images/banner-sale.jpg" />
+    </div>
+</div>
+
+<!-- Sản phẩm giảm giá -->
+<div class="body">
+    <h2 style="display:flex;justify-content:center">DISCOUNT PRODUCTS</h2>
+    <div class="body__mainTitle d-flex align-items-center" style="display:flex;justify-content:center">
+        <div class="d-flex justify-content-center align-items-center ml-5" style="font-size: 26px;">
+            <div id="dispro" class="text-secondary activeColor mr-3">GR Wood</div>
+            <div id="dispro2" class="text-secondary mr-3">GR Papper</div>
+            <div id="dispro3" class="text-secondary">GR Bamboo</div>
+        </div>
+    </div>
+
+    <div class="dislist active">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 6))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:orange">
+                                    <h4>30%</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="disstyle">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 7))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:orange">
+                                    <h4>30%</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="disequi">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 8))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale" style="background-color:orange">
+                                    <h4>30%</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+<div class="banner">
+
+    <div class="row banner-top">
+        <img class="col-md-4 col-sm-6" src="~/Content/images/bg1.jpg" />
+        <img class="col-md-4 col-sm-6" src="~/Content/images/bg2.jpg" />
+        <img class="col-md-4 col-sm-6" src="~/Content/images/bnn.jpg" />
+    </div>
+</div>
+
+<!-- Sản Phẩm Khác -->
+<div class="body">
+    <h2 style="display:flex;justify-content:center">OTHER PRODUCTS</h2>
+    <div class="body__mainTitle d-flex align-items-center" style="display:flex;justify-content:center">
+        <div class="d-flex justify-content-center align-items-center ml-5" style="font-size: 26px;">
+            <div id="clickDog" class="text-secondary activeColor mr-3">GR Ceramic</div>
+            <div id="clickCat" class="text-secondary mr-3">GR Glass</div>
+        </div>
+    </div>
+
+    <div class="dog active">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 10))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale">
+                                    <h4>Mới</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="cat">
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Where(n => n.idDanhmuc == 11))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale">
+                                    <h4>Mới</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Tất cả sản phẩm -->
+<div class="body" style="margin-top:20px;padding-bottom:40px;">
+    <h2 style="display:flex;justify-content:center">ALL PRODUCTS</h2>
+    <div class="body__mainTitle">
+    </div>
+
+    <div>
+        <div class="row">
+            @foreach (var item in Model.ListProduct.Take(10))
+            {
+                <div class="col-lg-2_5 col-md-4 col-6">
+                    <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@item.hinh" alt="">
+                            </div>
+                            @if (item.giamgia == 0 || item.giamgia == null)
+                            {
+                                <div class="product__sale">
+                                    <h4>Mới</h4>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product__sale">
+                                    <h4>@item.giamgia %</h4>
+                                </div>
+                            }
+                            <div class="product__content">
+                                <div class="product__title">
+                                    @Html.DisplayFor(modelItem => item.tensp)
+                                </div>
+
+                                @if (!(item.giamgia == 0 || item.giamgia == null))
+                                {
+                                    <div class="product__pride-oldPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giaban)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="product__pride-newPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", item.giakhuyenmai)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            }
+
+        </div>
+        <center style="margin-top: 30px;display:flex;justify-content:center">
+            <a href="@Url.Action("TatCaSanPham", "SanPham")" class="btn text-white" style="background: forestgreen;padding:10px;border-radius:10px">Xem thêm</a>
+        </center>
+    </div>
+</div>
+
+<script>
+    //------------------------------------Banner----------------------------------------------
+    let slideIndex = 0;
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        slides[slideIndex - 1].style.display = "block";
+        setTimeout(showSlides, 10000); // Chuyển đổi trang sau 5 giây
+    }
+    function plusSlides(n) {
+        let i
+        let slides = document.getElementsByClassName("mySlides");
+        slideIndex += n;
+        if (slideIndex < 1) { slideIndex = slides.length }
+        if (slideIndex > slides.length) { slideIndex = 1 }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+    showSlides();
+//----------------------------------------------------------------------------------------
+</script>

@@ -1,0 +1,26 @@
+﻿@model greenfrog.Models.DanhMuc
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12">
+
+    <dl class="dl-horizontal">
+        <div class="menu_option-head2">Chi tiết</div>
+        <hr />
+        <div>
+            <strong>Tên danh mục</strong>
+        </div>
+
+        <div>
+            @Html.DisplayFor(model => model.tendanhmuc)
+        </div>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.idDanhmuc }) |
+        @Html.ActionLink("Quay lại", "Index")
+    </p>
+</div>

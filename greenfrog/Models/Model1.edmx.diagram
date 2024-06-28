@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5698ef7d64d04f9b87fc7f3332fc3b5d" Name="Diagram1" ZoomLevel="101">
+        <EntityTypeShape EntityType="doanwebModel.AdminUser" Width="1.5" PointX="6.625" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.Category" Width="1.5" PointX="10.125" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.ChiTietDonHang" Width="1.5" PointX="4.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.Customer" Width="1.5" PointX="6.625" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.DanhGia" Width="1.5" PointX="4.375" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.DanhMuc" Width="1.5" PointX="0.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.DichVu" Width="1.5" PointX="8.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.DonHang" Width="1.5" PointX="6.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.KhachHang" Width="1.5" PointX="6.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.KhachHangRole" Width="1.5" PointX="8.625" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.LiveStream" Width="1.5" PointX="11.875" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.OrderDetail" Width="1.5" PointX="8.375" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.OrderPro" Width="1.5" PointX="10.125" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.Product" Width="1.5" PointX="8.375" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.SanPham" Width="1.5" PointX="2.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="doanwebModel.ThuVienAnh" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="doanwebModel.FK__ChiTietDo__madon__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__ChiTietDon__masp__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__DanhGia__id_kh__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__DanhGia__id_sp__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__SanPham__idDanhm__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__DichVu__makh__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__DonHang__makh__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__KhachHang__RoleI__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="doanwebModel.FK__SanPham__idthuvi__3D5E1FD2" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

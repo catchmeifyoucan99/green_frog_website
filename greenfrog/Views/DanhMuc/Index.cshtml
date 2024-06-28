@@ -1,0 +1,68 @@
+﻿@model IEnumerable<greenfrog.Models.DanhMuc>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 p-2 pl-4">
+
+    <div class="body fix-width scroll-inner">
+        <table class="table table-striped">
+            <div class="menu_option-head">Danh Mục Sản Phẩm</div>
+            <div class="add-product">
+                <a href="@Url.Action("Create")">Thêm danh mục</a>
+            </div>
+
+            <thead>
+                <th>ID</th>
+                <th>Tên Danh Mục</th>
+            <th>
+                Chức năng
+            </th>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idDanhmuc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tendanhmuc)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "DanhMuc", new { id = item.idDanhmuc })" class="text-primary f2"><i class="fa-solid fa-eye"></i></a>
+                        <a href="@Url.Action("Edit", "DanhMuc", new { id = item.idDanhmuc })" class="text-primary f2"><i class="fas fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "DanhMuc", new { id = item.idDanhmuc })" class="text-primary f2"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+    <div>
+        @Html.ActionLink("Quay lại", "Index", "Admin", new { @class = "btn btn-default mt-2" })
+    </div>
+
+    </div>
+
+    <style>
+        .MenuTrang li {
+            display: inline;
+        }
+    </style>
+    <style type="text/css">
+        #mau-nut a {
+            clear: both;
+            background-color: orange;
+            color: snow;
+        }
+
+            #mau-nut a:hover {
+                background-color: darkcyan;
+                color: snow;
+            }
+    </style>
+

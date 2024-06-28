@@ -1,0 +1,90 @@
+﻿@model PagedList.IPagedList<greenfrog.Models.SanPham>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "QLSanPham";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 padding-8">
+    <div class="list">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <div class="menu_option-head">Danh sách sản phẩm</div>
+                <div class="add-product">
+                    <a href="@Url.Action("Create")">Thêm sản phẩm</a>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("QLSanPham", "Admin", FormMethod.Get))
+            {
+                <b class="pr-2">Tìm kiếm theo tên</b>
+
+                <div class="d-flex align-items-center">
+                    <input id="search" name="search" required type="text" class="form-control mr-1">
+
+                    <input type="submit" value="Search" class="btn btn-danger" />
+
+                </div>
+            }
+        </div>
+       
+
+        <div class="body fix-width scroll-inner">
+            <table class="table table-striped">
+                <thead>
+                <th>tên sản phẩm</th>
+                <th>hình</th>
+                <th>giá</th>
+                <th>giảm giá</th>
+                <th>số lượng tồn</th>
+                <th>giá km</th>
+                <th>ngày cập nhập</th>
+                <th>Chức năng</th>
+                </thead>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tensp)
+                        </td>
+                        <td>
+                            <img src=" @Html.DisplayFor(modelItem => item.hinh)" height="100px" />
+                        </td>
+                        <td>
+                            @String.Format("{0:N0}", item.giaban)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.giamgia)</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.soluongton)
+                        </td>
+                        <td>@String.Format("{0:N0}", item.giakhuyenmai)</td>
+                        <td>
+                            @item.ngaycapnhat
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", "Admin", new { id = item.masp })" class="text-primary f2"><i class="fa-solid fa-eye"></i></a>
+                            <a href="@Url.Action("Edit", "Admin", new { id = item.masp })" class="text-primary f2"><i class="fas fa-edit"></i></a>
+                            <a href="@Url.Action("Delete", "Admin", new { id = item.masp })" class="text-primary f2"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="MenuTrang">
+            @Html.PagedListPager(Model, page => Url.Action("QLSanPham", new
+       {
+           page = page,
+           search = ViewBag.Search
+       }))
+        </div>
+    </div>
+
+</div>

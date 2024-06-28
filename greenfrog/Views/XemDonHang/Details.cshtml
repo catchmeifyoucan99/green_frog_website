@@ -1,0 +1,353 @@
+﻿
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.4/jquery.rateyo.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.4/jquery.rateyo.min.js"></script>
+
+<style>
+    #rateYo {
+        width: unset !important;
+    }
+
+    .jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group > svg {
+        width: 25px !important;
+    }
+</style>
+
+<script src="~/Content/scripts/zoomsl.min.js"></script>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#rateYo').rateYo({
+            rating: 0,
+            numStars: 5,
+            maxValue: 5,
+            onChange: function (rating, rateYoInstance) {
+                $('#rating').val(rating);
+            }
+        })
+    })
+
+
+    //Zoom image Details product
+    jQuery(document).ready(function ($) {
+
+        $('.small-img img').click(function () {
+            var image = $(this).attr('src');
+            $('.big-img img').attr('src', image);
+        });
+
+        $('#zoom').imagezoomsl({
+            zoomrange: [5, 3]
+        });
+
+    });
+
+</script>
+
+
+<!-- Hiển thị chi tiết sản phẩm -->
+<div class="body" style="padding-top: 30px;">
+    <a class="buy_continute" href="@Url.Action("ListSanPham", "SanPham")"><i class="fa fa-arrow-circle-left"></i> Trở lại mua hàng</a>
+    @foreach (var m in ViewBag.Main)
+    {
+        <div class="product__details row">
+            <div class="product__details-img col-lg-4 col-md-4">
+                <div class="big-img">
+                    <img src="@m.sanpham.hinh" alt="" id="zoom" style="visibility: visible;">
+                </div>
+                <div class="small-img d-flex mt-5">
+                    @foreach (var xm in ViewBag.thu)
+                    {
+                        <img src="@m.sanpham.hinh" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img1" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img2" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+                        <img src="@xm.thuvienanh.img3" onerror="this.onerror=null; this.src='https://i.pinimg.com/originals/ae/4c/9e/ae4c9ea2edf887f6ad1e4e63cfae05b0.jpg'" class="small-imgg" alt="">
+
+                    }
+                </div>
+            </div>
+
+            <div class="product__details-info col-lg-8 col-md-8">
+                <h3 style="margin-top: unset; line-height: unset;">@m.sanpham.tensp</h3>
+                <div class="short-des">
+                    @Html.Raw(@m.sanpham.mota)
+
+                </div><hr />
+
+                <div class="product__pride">
+                    @if (@m.sanpham.giamgia == 0 || @m.sanpham.giamgia == null)
+                    {
+                        <div class="product__pride-newPride" style="font-size: 40px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giakhuyenmai)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product__pride-oldPride" style="font-size: 20px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giaban)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                        <div class="product__pride-newPride" style="font-size: 40px; text-align: start;">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", @m.sanpham.giakhuyenmai)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    }
+
+                </div>
+
+                <form action="" method="POST">
+                    <!--
+                        <div class="number">
+                            <span>Số lượng</span>
+                            <div class="number__count">
+                                <input type="number" value="1" min="1" max="10" name="quantity">
+                                <input type="hidden" name="id" value="<?php echo $valueID['id_sanpham']; ?>">
+                            </div>
+                        </div>
+                    -->
+
+                    <div class="number">
+                        <span>
+                            Số lượng tồn
+                            <span class="number__count">
+                                @m.sanpham.soluongton
+                            </span>
+                        </span>
+
+                    </div>
+
+                    @if (m.sanpham.soluongton != 0)
+                    {
+                        <div class="product__cart">
+                            <a href="@Url.Action("ThemGioHang", "GioHang", new { @id = @m.sanpham.masp, @strURL = Request.Url.ToString() })" class="product__cart-add" name="add-to-cart">
+                                Thêm vào giỏ hàng
+                            </a>
+                            <h4 class="text-danger">@Html.Raw(TempData["themthanhcong"])</h4>
+                            <h4 class="text-danger">@Html.Raw(TempData["msg"])</h4>
+                            <h4 class="text-danger">@Html.Raw(TempData["kmua"])</h4>
+                            <a href="@Url.Action("MuaNgay", "GioHang", new { @id = @m.sanpham.masp, @strURL = Request.Url.ToString() })" class="product__cart-buy" name="buy-now">Mua ngay</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product__cart">
+                            <div class="product__cart-add" style="background: unset;">Tạm hết hàng</div>
+
+                        </div>
+                    }
+
+                </form>
+            </div>
+        </div>
+    }
+
+
+
+    <!--Mô tả sản phẩm-->
+    <div class="body__mainTitle">
+        <h2>MÔ TẢ SẢN PHẨM</h2>
+    </div>
+    @foreach (var m in ViewBag.Main)
+    {
+        @Html.Raw(@m.sanpham.mota)
+    }
+
+    <hr />
+
+    <!--ĐÁNH GIÁ SP-->
+    <div class="body__mainTitle">
+        <h2>ĐÁNH GIÁ SẢN PHẨM</h2>
+    </div>
+    <div class="mt-5">
+        @if (@ViewBag.SLuotRate != null)
+        {
+            <div class="ratingStar" style="color: #ee4d2d;">
+                <div class="d-flex align-items-end">
+                    <div style="font-size: 25px;">@String.Format("{0:0.00}", @ViewBag.SLuotRate)</div>
+                    <div class="pl-2 pr-2" style="font-size: 20px;">trên</div>
+                    <div style="font-size: 20px;"> 5</div>
+
+                </div>
+                <div class="d-flex mt-3">
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                    <i class="fas fa-star" style=" font-size: 20px;"></i>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div style="color: #ee4d2d; font-size: 20px;">Chưa có đánh giá</div>
+        }
+
+    </div>
+
+
+
+    <div class="mt-5">
+        <div style="color: #ee4d2d; font-size: 20px;">
+
+            @if (ViewBag.CountRate != null)
+            {
+                <div>Số lượng đánh giá 5 sao: @ViewBag.CountRate</div>
+            }
+            else
+            {
+                <span> </span>
+            }
+        </div>
+
+    </div>
+
+
+    <!--Bình luận sản phẩm-->
+    <div class="body__mainTitle">
+        <h2>BÌNH LUẬN</h2>
+    </div>
+    <div>
+        @foreach (var m in ViewBag.ViewDanhGia)
+        {
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+                <img src="~/Content/images/user.jpg" width="45" height="45" style="border-radius: 50%;" />
+                <div class="pl-3">
+                    <b>@m.khachhang.hoten</b>
+                    <div style="line-height: 30px;">@m.danhgia.Content</div>
+                    <div>@String.Format("{0:dd/MM/yyyy hh:mm:s}", @m.danhgia.Ngaycapnhap)</div>
+                </div>
+            </div>
+            @if (@m.danhgia.Rating != 0)
+            {
+                <div>@m.danhgia.Rating <i class="fas fa-star text-warning"></i></div>
+            }
+            else
+            {
+                <th>&nbsp;</th>
+            }
+        </div>
+
+            <hr />
+        }
+    </div>
+    @if (Session["Username"] == null)
+    {
+        <center><strong>Bạn phải <a href="@Url.Action("DangNhap","NguoiDung")">đăng nhập</a> để sử dụng chức năng này</strong></center><hr />
+    }
+
+    else
+    {
+        <div class="text-danger">@ViewData["notexistRating"]</div>
+        <div class="text-danger">@ViewData["existRating"]</div>
+        <div class="text-danger">@ViewData["chuadcdanhgia"]</div>
+        using (Html.BeginForm("SendDanhGia", "XemDonHang", FormMethod.Post))
+        {
+<div class="d-flex justify-content-between align-items-center">
+    <div>Nội dung</div>
+    <div class="d-flex align-items-center">
+        <div>Đánh giá:</div>
+        <div id="rateYo"></div>
+        <input type="hidden" id="rating" name="rating" value="0" />
+    </div>
+
+</div>
+            <textarea name="content" class="form-control" style="outline: none; margin-bottom: 5px;"></textarea>
+            <div>
+
+                <input class="btn btn-danger" type="submit" value="Gửi" />
+
+                <input data-val="true"
+                       data-val-number="The field id_sp must be a number."
+                       data-val-required="The id_sp field is required."
+                       id="id_sp"
+                       name="id_sp"
+                       type="hidden"
+                       value="0" />
+
+            </div>
+        }
+    }
+
+    <!-- Sản phẩm ngẫu nhiên -->
+    <div class="body__mainTitle">
+        <h2>CÓ THỂ BẠN CŨNG THÍCH</h2>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.SelectedPostt)
+        {
+            <div class="col-lg-2_5 col-md-4 col-6">
+                <a href="@Url.Action("Details", "SanPham", new { id = @item.sanpham.masp })" class="product">
+                    <div class="product__img">
+                        <img src=" @item.sanpham.hinh" alt="">
+                    </div>
+                    @if (@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null)
+                    {
+                        <div class="product__sale">
+                            <h4>Mới</h4>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="product__sale">
+                            <h4> @item.sanpham.giamgia %</h4>
+                        </div>
+                    }
+                    <div class="product__content">
+                        <div class="product__title">
+                            @item.sanpham.tensp
+                        </div>
+
+                        @if (!(@item.sanpham.giamgia == 0 || @item.sanpham.giamgia == null))
+                        {
+                            <div class="product__pride-oldPride">
+                                <span class="Price">
+                                    <bdi>
+                                        @String.Format("{0:N0}", @item.sanpham.giaban)
+                                        <span class="currencySymbol">₫</span>
+                                    </bdi>
+                                </span>
+                            </div>
+                        }
+
+                    </div>
+                </a>
+
+                <div>
+                    <div class="product__pride-newPride">
+                        <span class="Price">
+                            <bdi>
+                                @String.Format("{0:N0}", @item.sanpham.giakhuyenmai)
+                                <span class="currencySymbol">₫</span>
+                            </bdi>
+                        </span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        }
+
+    </div>
+</div>
+<!-- End Hiển thị chi tiết sản phẩm -->

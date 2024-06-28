@@ -1,0 +1,274 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+:root {
+    --mainColor: crimson;
+}
+.menu_option {
+    box-shadow: 0 3px 8px rgb(0 0 0 / 15%);
+    margin-top: 20px;
+}
+.menu_option-head {
+    color: #000;
+    text-align: center;
+    padding: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.menu_option > ul > li {
+    text-align: center;
+    line-height: 32px;
+    border: 1px solid #e4e4e4;
+    padding: 10px;
+    list-style: none;
+}
+.menu_option > ul > li > a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+.menu_option > ul > li > a:hover {
+    opacity: 0.7;
+}
+.list {
+    margin-top: 20px;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 15%);
+}
+.add-product {
+    padding: 10px;
+    background-color: var(--mainColor);
+    display: inline-flex;
+    margin: 10px 0;
+    padding: 10px;
+    float: right;
+}
+.add-product > a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+.add-product > a:hover {
+    opacity: 0.7;
+}
+table {
+    width: 100%;
+    border-spacing: 0;
+    overflow: hidden;
+}
+thead {
+    visibility: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+th {
+    background: var(--mainColor);
+    color: #fff;
+}
+td:nth-child(1) {
+    background: var(--mainColor);
+    color: #fff;
+}
+td,
+th {
+    padding: 1em;
+}
+td,
+tr {
+    display: block;
+}
+td {
+    position: relative;
+}
+td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    padding-left: 1em;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+tr {
+    margin-bottom: 1.5em;
+    border: 1px solid #ddd;
+    text-align: right;
+}
+tr:last-of-type {
+    margin-bottom: 0;
+}
+td:nth-child(n + 2):nth-child(odd) {
+    background-color: #ddd;
+}
+tr > td > a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+tr > td > a:hover {
+    opacity: 0.7;
+}
+.td_edit {
+    background-color: var(--mainColor);
+}
+.td_delete {
+    background-color: #dc143c;
+}
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+@media only screen and (min-width: 768px) {
+    thead {
+        visibility: visible;
+        position: relative;
+    }
+    th {
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 0.9em;
+    }
+    tr {
+        display: table-row;
+        border: none;
+        text-align: left;
+    }
+    td {
+        display: table-cell;
+        border: 1px solid #c7c7c7;
+    }
+    td::before {
+        content: none;
+    }
+    td:nth-child(1) {
+        background: 0 0;
+        color: #444;
+        width: 130px;
+    }
+    td:nth-child(n + 2):nth-child(odd) {
+        background-color: transparent;
+    }
+}
+.with70 {
+    width: 70%;
+    margin: 0 auto;
+}
+@media only screen and (max-width: 1024px) {
+    .with70 {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+.active-bg {
+    background: #f3f3f3;
+}
+.menu_option-head2 {
+    margin-top: 20px;
+    background-color: var(--mainColor);
+    color: #fff;
+    text-align: start;
+    line-height: 32px;
+    padding: 10px;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+.wrap-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    padding-right: 10px;
+    width: 70%;
+}
+.wrap-field > label {
+    margin-right: 10px;
+}
+.right-wrap-field {
+    width: 65%;
+}
+.right-wrap-field > input {
+    padding: 10px 0;
+}
+textarea#product-content {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+}
+
+.form-control{
+    height: 40px!important;
+}
+
+.wrap-field2 {
+    display: block;
+    padding: 20px 0;
+    padding-right: 10px;
+}
+.right-wrap-field2 {
+    margin-top: 16px;
+}
+.save {
+    display: flex;
+    margin-top: 10px;
+}
+.cancel,
+.save > button {
+    border: none;
+    outline: 0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--mainColor);
+    margin-right: 10px;
+}
+.cancel {
+    background-color: #666 !important;
+    cursor: default !important;
+    text-decoration: none;
+}
+.save > button:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+.col-md-3 {
+    padding-left: 0 !important;
+}
+.bill {
+    text-align: end;
+    padding: 1rem 10px;
+}
+.bill > div,
+.info > div {
+    font-weight: 700;
+    line-height: 2rem;
+}
+.duyet {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 5px;
+    border-radius: 5px;
+    background-color: var(--mainColor);
+    margin-right: 5px;
+}
+.duyetdon {
+    padding: 5px;
+    border: none;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: var(--mainColor);
+}
+.duyetdon:hover {
+    opacity: 0.7;
+}
+.makh {
+    color: #0059ff;
+}
+
+
+
+
+

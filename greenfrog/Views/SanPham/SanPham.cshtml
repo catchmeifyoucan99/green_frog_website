@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<greenfrog.Models.SanPham>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Tất cả sản phẩm -->
+<div class="body">
+    <div style="display: flex; justify-content: center; border-bottom: 1px solid #d9d9d9;padding-bottom:15px;">
+        <h2>TẤT CẢ SẢN PHẨM</h2>
+    </div>
+
+    <div style="margin-top:30px;">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <h5"><a style="padding:5px 10px;border-radius:5px;color:whitesmoke;background-color: var(--mainColor)" href="@Url.Action("ListSanPham", "SanPham")"><i class="fa fa-arrow-circle-left"></i> TRANG CHỦ</a></h5>
+                <hr />
+
+                @{ Html.RenderAction("DanhMuc", "SanPham");}
+
+            </div>
+
+            <div class="col-lg-9 col-md-8">
+                <div class="row">
+                    @foreach (var item in Model.Take(35))
+                    {
+                        <div class="col-lg-3 col-md-4 col-6 mb-3">
+                            <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                                <div class="product">
+                                    <div class="product__img">
+                                        <img src="@item.hinh" alt="">
+                                    </div>
+                                    @if (item.giamgia == 0 || item.giamgia == null)
+                                    {
+                                        <div class="product__sale">
+                                            <h4>Mới</h4>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="product__sale">
+                                            <h4>@item.giamgia %</h4>
+                                        </div>
+                                    }
+                                    <div class="product__content">
+                                        <div class="product__title">
+                                            @Html.DisplayFor(modelItem => item.tensp)
+                                        </div>
+
+                                        @if (!(item.giamgia == 0 || item.giamgia == null))
+                                        {
+                                            <div class="product__pride-oldPride">
+                                                <span class="Price">
+                                                    <bdi>
+                                                        @String.Format("{0:N0}", item.giaban)
+                                                        <span class="currencySymbol">₫</span>
+                                                    </bdi>
+                                                </span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="product__pride-newPride">
+                                        <span class="Price">
+                                            <bdi>
+                                                @String.Format("{0:N0}", item.giakhuyenmai)
+                                                <span class="currencySymbol">₫</span>
+                                            </bdi>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="MenuTrang">
+                        @Html.PagedListPager(Model, page => Url.Action("SanPham", new
+                        {
+                            page = page
+                        }))
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+<!-- End Tất cả sản phẩm -->

@@ -1,0 +1,113 @@
+﻿@model PagedList.IPagedList<greenfrog.Models.SanPham>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "TimKiem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="body">
+
+    <div class="body__mainTitle d-flex justify-content-between align-items-center">
+        <h2>Sản phẩm tìm kiếm</h2>
+
+    </div>
+
+    <p>
+        @using (Html.BeginForm("KQ", "TimKiem", FormMethod.Get))
+        {
+            <b class="pr-2">Tìm kiếm theo</b>
+            <div>
+                <input type="radio" id="searchby" name="searchby" value="Name">
+                <label for="searchby" class="pr-2">Tên</label>
+            </div>
+
+            <div>
+                <input type="radio" id="searchby1" name="searchby" value="giakm">
+                <label for="searchby1" class="pr-2">Giá</label>
+            </div>
+
+            <div>
+                <input type="radio" id="searchby2" name="searchby" value="danhmuc">
+                <label for="searchby2">Danh mục</label>
+            </div>
+
+            <input id="search" name="search" type="text" class="form-control col-md-10">
+
+            <input type="submit" value="Search" class="btn btn-danger mt-1 ml-1" />
+        }
+    </p>
+
+    <div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+            <div class="col-lg-2_5 col-md-4 col-6">
+                <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="@item.hinh" alt="">
+                        </div>
+                        @if (item.giamgia == 0 || item.giamgia == null)
+                        {
+                            <div class="product__sale">
+                                <h4>Mới</h4>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="product__sale">
+                                <h4>@item.giamgia %</h4>
+                            </div>
+                        }
+                        <div class="product__content">
+                            <div class="product__title">
+                                @Html.DisplayFor(modelItem => item.tensp)
+                            </div>
+
+                            @if (!(item.giamgia == 0 || item.giamgia == null))
+                            {
+                                <div class="product__pride-oldPride">
+                                    <span class="Price">
+                                        <bdi>
+                                            @String.Format("{0:N0}", item.giaban)
+                                            <span class="currencySymbol">₫</span>
+                                        </bdi>
+                                    </span>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="product__pride-newPride">
+                            <span class="Price">
+                                <bdi>
+                                    @String.Format("{0:N0}", item.giakhuyenmai)
+                                    <span class="currencySymbol">₫</span>
+                                </bdi>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            }
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+
+            <div class="MenuTrang">
+
+                @Html.PagedListPager(Model, page => Url.Action("KQ", new
+               {
+                   page = page, searchby = ViewBag.Searchby, search = ViewBag.Search
+               }))
+            </div> 
+        </div>
+    </div>
+
+
+
+</div>

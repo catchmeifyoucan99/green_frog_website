@@ -1,0 +1,86 @@
+﻿@model IEnumerable<greenfrog.Models.DonHang>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="body fix-width scroll-inner" style="height:600px;">
+    <table class="table table-striped">
+        <tr>
+            <th>
+
+                @Html.DisplayNameFor(model => model.makh)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.thanhtoan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.giaohang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ngaydat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ngaygiao)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.makh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.thanhtoan)
+                </td>
+                <td>
+                    @if (item.giaohang == "chờ xử lý")
+                    {
+                        <div style="color: #007bff;">@item.giaohang</div>
+                    }
+                    else if (item.giaohang == "đang xử lý")
+                    {
+                        <div style="color: orange;">@item.giaohang</div>
+                    }
+                    else if (item.giaohang == "đang giao")
+                    {
+                        <div style="color: forestgreen;">@item.giaohang</div>
+                    }
+                    else if (item.giaohang == "giao thành công")
+                    {
+                        <div style="color: green;">@item.giaohang</div>
+                    }
+                    else if (item.giaohang == "hủy")
+                    {
+                        <div style="color: red;">@item.giaohang</div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngaydat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ngaygiao)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Chi tiết đơn hàng", "DetailsCTDH2", new { id = item.madon })
+                </td>
+
+                @if (item.giaohang == "chờ xử lý")
+                {
+                    <td>
+                        @Html.ActionLink("hủy đơn", "HuyDon", new { id = item.madon })
+                    </td>
+                }
+
+            </tr>
+        }
+        <div class="text-danger">@Html.Raw(TempData["thongbao"])</div>
+    </table>
+
+</div>

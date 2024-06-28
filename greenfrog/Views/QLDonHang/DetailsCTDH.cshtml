@@ -1,0 +1,122 @@
+﻿@model IEnumerable<greenfrog.Models.ChiTietDonHang>
+
+@{
+    ViewBag.Title = "DetailsCTDH";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="col-lg-12 padding-8 ViewPrint">
+
+    <h3>Thông tin khách hàng</h3>
+    @foreach (var m in ViewBag.ViewChiTietDH)
+    {
+        <h5>Họ tên: @m.khachhang.hoten</h5>
+        <h5>Email: @m.khachhang.email</h5>
+        <h5>Địa chỉ: @m.khachhang.diachi</h5>
+        <h5>Số điện thoại: @m.khachhang.dienthoai</h5>
+    }
+
+    <h2>Chi tiết sản phẩm</h2>
+
+    <table class="table">
+        <tr>
+            <th>mã đơn</th>
+            <th>tên sp</th>
+            <th>hình</th>
+            <th>giá</th>
+            <th>giảm giá</th>
+            <th>giá km</th>
+            <th>số lượng</th>
+        </tr>
+
+        @foreach (var item in ViewBag.ViewSP)
+        {
+            <tr>
+                <td>
+                    @item.ctdh.madon
+                </td>
+                <td>
+                    @item.sanpham.tensp
+                </td>
+                <td>
+                    <img src=" @item.sanpham.hinh" height="100px" />
+                </td>
+                <td>@item.sanpham.giaban vnđ</td>
+                <td>
+                    @item.sanpham.giamgia %
+                </td>
+                <td>
+                    @String.Format("{0:N0}", @item.sanpham.giakhuyenmai) vnđ
+                </td>
+
+                <td>
+                    @item.ctdh.soluong
+                </td>
+
+            </tr>
+        }
+
+    </table>
+
+    @foreach (var item in Model.Take(1))
+    {
+        <tr>
+            <td>
+                <strong> Tổng số lượng</strong>
+
+                @Html.DisplayFor(modelItem => item.tongsoluong)
+            </td>
+            <td>
+                <strong> Tổng giá tiền</strong>
+
+                @String.Format("{0:N0}", item.tonggia) vnđ
+            </td>
+
+        </tr>
+    }
+
+
+</div>
+
+<div class="body padding-8" style="border: none; box-shadow: none; border-radius: none; margin-top: 10px;">
+    <div>
+        <button id="Print" class="btn btn-primary">Print</button>
+    </div>
+
+    <div class="mt-2">
+        @Html.ActionLink("Quay lại", "Index")
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="~/Content/admin/js/printThis.js"></script>
+
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#Print').on("click", function () {
+            $('.ViewPrint').printThis({
+                debug: false,               // show the iframe for debugging
+                importCSS: true,            // import parent page css
+                importStyle: false,         // import style tags
+                printContainer: true,       // print outer container/$.selector
+                loadCSS: "",                // path to additional css file - use an array [] for multiple
+                pageTitle: "",              // add title to print page
+                removeInline: false,        // remove inline styles from print elements
+                removeInlineSelector: "*",  // custom selectors to filter inline styles. removeInline must be true
+                printDelay: 333,            // variable print delay
+                header: null,               // prefix to html
+                footer: null,               // postfix to html
+                base: false,                // preserve the BASE tag or accept a string for the URL
+                formValues: true,           // preserve input/form values
+                canvas: false,              // copy canvas content
+                doctypeString: '...',       // enter a different doctype for older markup
+                removeScripts: false,       // remove script tags from print content
+                copyTagClasses: false,      // copy classes from the html & body tag
+                beforePrintEvent: null,     // function for printEvent in iframe
+                beforePrint: null,          // function called before iframe is filled
+                afterPrint: null            // function called before iframe is removed
+            });
+        });
+    });
+</script>

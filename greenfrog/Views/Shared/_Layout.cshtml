@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản Phẩm Thân Thiện Môi Trường</title>
+    <link rel="shortcut icon" type="image/png" href="~/Content/images/greenfrog.img.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="~/Content/css/style.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" />
+
+</head>
+<body>
+    <div class="header">
+
+        <div class="navbar">
+            <div class="navbar__left">
+                <a href="@Url.Action("ListSanPham", "SanPham")" class="navbar__logo">
+                    <img src="~/Content/images/greenfrog.img.png" alt="">
+                </a>
+
+                <div class="navbar__menu">
+                    <i id="bars" class="fa fa-bars" aria-hidden="true"></i>
+                    <ul class="navmenu">
+                        <li><a href="/">Trang chủ</a></li>
+
+                        <li><a href="@Url.Action("SanPham", "SanPham")">Sản phẩm</a></li>
+                        <li><a href="@Url.Action("Index", "Home")">Trao Đổi</a></li>
+
+                        @if (Session["TaiKhoan"] != null)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "XemDonHang")">Đơn hàng</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "XemLichHen")">Xem Lịch Hẹn</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="navbar__center">
+
+                @using (Html.BeginForm("TimKiem", "TimKiem", FormMethod.Get, new { @class = "navbar__search", @id = "formSearch" }))
+                {
+                    @Html.TextBox("search", null, new { @class = "search", @id = "message", placeholder = "Nhập để tìm kiếm"})
+                    <i id="btnTalk" class="fa-solid fa-microphone"></i>
+                    <i class="fa fa-search" id="searchBtn"></i>
+
+                }
+
+            </div>
+
+            <div class="navbar__right">
+                <div style="display: flex; align-items: center;">
+
+                    @if (Session["TaiKhoan"] != null)
+                    {
+                        <span>@Session["Username"].ToString()</span>
+
+
+                        <a href="@Url.Action("DangXuat", "NguoiDung")">
+                            <span class="fas fa-sign-out-alt"></span>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="login">
+                            <a href="@Url.Action("DangNhap", "NguoiDung")"><i class="fa fa-user"></i></a>
+                        </div>
+                    }
+
+                </div>
+                @Html.Action("GioHangPartial", "GioHang", new { @class = "giohang" })
+
+            </div>
+        </div>
+
+    </div>
+
+
+    @RenderBody()
+    <footer>
+        <div class="footer__info">
+            <div class="footer__info-content">
+                <h3>THÔNG TIN</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Phường 13, Quận 10, TPHCM</p>
+                <p><i class="fa-solid fa-envelope"></i> GreenFrog@gmail.com</p>
+                <p><i class="fa-solid fa-envelope"></i> 011139999</p>
+            </div>
+
+            <div class="footer__info-content">
+                <h3>CHÍNH SÁCH</h3>
+                <p>Chính sách bảo mật</p>
+                <p>Chính sách đổi trả</p>
+                <p>Chính sách vận chuyển</p>
+                <p>Quy định sử dụng</p>
+            </div>
+
+            <div class="footer__info-content">
+                <h3>HƯỚNG DẪN</h3>
+                <p>Hướng dẫn mua hàng</p>
+                <p>Hướng dẫn thanh toán</p>
+                <p>Hướng dẫn giao nhận</p>
+                <p>Điều khoản dịch vụ</p>
+            </div>
+
+            <div class="footer__info-content">
+                <h3>MẠNG XÃ HỘI</h3>
+                <p style="display:flex;">
+                    <p><i class="fa-brands fa-facebook"></i> Facebook</p>
+                    <p><i class="fa-brands fa-instagram"></i> Instagram</p>
+                    <p><i class="fa-brands fa-google"></i> Google</p>
+                </p>
+            </div>
+        </div>
+
+        <div class="footer__copyright">
+            <center> 2023 All rights reserved.</center>
+        </div>
+    </footer>
+    <div class="go-to-top"><i class="fas fa-chevron-up"></i></div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Content/scripts/ckfinder/ckfinder.js"></script>
+    <script src="~/Content/scripts/ckeditor/ckeditor.js"></script>
+    @RenderSection("upload", required: false)
+    @RenderSection("scripts", required: false)
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        //Slider using Slick
+        $(document).ready(function () {
+            $('.post-wrapper').slick({
+                slidesToScroll: 1,
+                autoplay: true,
+                arrow: true,
+                dots: true,
+                autoplaySpeed: 5000,
+                prevArrow: $('.prev'),
+                nextArrow: $('.next'),
+                appendDots: $(".dot"),
+            });
+        });
+
+        // Slick mutiple carousel
+        $('.post-wrapper2').slick({
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            prevArrow: $('.prev2'),
+            nextArrow: $('.next2'),
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 3,
+                        infinite: true,
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+
+
+        //Chat bang giong noi
+        var message = document.querySelector('#message');
+
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+        var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+
+        var grammar = '#JSGF V1.0;'
+
+        var recognition = new SpeechRecognition();
+        var speechRecognitionList = new SpeechGrammarList();
+        speechRecognitionList.addFromString(grammar, 1);
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = true;
+
+        recognition.onresult = function (event) {
+            var lastResult = event.results.length - 1;
+            var content = event.results[lastResult][0].transcript;
+
+            //hien thi giong noi ra input
+            var productBrandField = $('input[name="search"]');
+            productBrandField.val(content.replace('.', ''));
+
+            //document.getElementById("message").submit();
+        };
+
+        
+        recognition.onspeechend = function () {
+            recognition.stop();
+        };
+
+        recognition.onerror = function (event) {
+            message.textContent = 'Đã xảy ra lỗi khi nhận dạng giọng nói: ' + event.error;
+        }
+
+        document.querySelector('#btnTalk').addEventListener('click', function () {
+            recognition.start();
+        });
+
+        //recognition.onend = () => {
+        //    window.onload = document.querySelector("#message").submit();
+        //};
+
+        $("#message").on("keydown", function search(e) {
+            if (e.keyCode == 13) {
+                var input = document.getElementById("message").value
+
+                searchHistory(input)
+
+                const cat = localStorage.getItem('searchHistory');
+
+                setCookie('searchname', encodeURIComponent(cat), 7);
+            }
+        });
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        const localGet = localStorage.getItem('searchHistory') || '["","",""]'
+
+        function searchHistory(inpu) {
+            const maxHistoryLength = 3;
+            
+            const history = JSON.parse(localGet);
+            const isHistoryMaxed = history.length === maxHistoryLength;
+            const workingHistory = isHistoryMaxed ? history.slice(1) : history;
+            const updatedHistory = workingHistory.concat(inpu);
+
+            localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
+        }
+
+
+    </script>
+
+
+    <script src="~/Content/scripts/script.js"></script>
+</body>
+</html>

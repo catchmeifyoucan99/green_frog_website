@@ -1,0 +1,51 @@
+﻿@model IEnumerable<greenfrog.Models.DonHang>
+
+@{
+    ViewBag.Title = "DoanhThu";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (Session["Staff"] != null)
+{
+    <div class="p-3 text-danger">Bạn không có quyền truy cập trang web này!!!</div>
+}
+else
+{
+
+<div class="col-lg-12 padding-8">
+
+    <h3>Tổng Doanh Thu Đạt Được</h3>
+
+    <h2>@String.Format("{0:N0}", @ViewBag.TongDoanhThu) vnđ</h2>
+
+    @using (Html.BeginForm("DoanhThuNgay", "Admin", FormMethod.Post))
+    {
+        <h4 class="text-danger">@Html.Raw(TempData["msgDate"])</h4>
+        <h3 class="mt-5">Doanh thu theo ngày</h3>
+        <input type="date" name="NgayGiao" required />
+
+        <input type="submit" value="Kiểm tra" />
+
+    }
+
+    @using (Html.BeginForm("DoanhThuThang", "Admin", FormMethod.Post))
+    {
+        <h3 class="mt-5">Doanh thu theo tháng</h3>
+        <input type="date" name="NgayGiao" required />
+
+        <input type="submit" value="Kiểm tra" />
+
+    }
+
+    @using (Html.BeginForm("DoanhThuNam", "Admin", FormMethod.Post))
+    {
+        <h3 class="mt-5">Doanh thu theo năm</h3>
+        <input type="date" name="NgayGiao" required />
+
+        <input type="submit" value="Kiểm tra" />
+
+    }
+
+
+</div>
+}

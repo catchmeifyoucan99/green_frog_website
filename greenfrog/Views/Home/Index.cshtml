@@ -1,0 +1,227 @@
+﻿@model greenfrog.Models.DichVu
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/Content/css/style.min.css" />
+}
+
+
+<h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" class="text-white mb-5">
+    Các Thông Tin Về Chúng Tôi
+    <div class="row mt-5">
+        <div class="col-lg-4 col-md-4">
+            <div class="mainServices">
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="mainServices__content">
+                    <h3>Địa Chỉ</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+            <div class="mainServices">
+                <i class="fa-solid fa-phone"></i>
+                <div class="mainServices__content">
+                    <h3>Liên Lạc</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+            <div class="mainServices">
+                <i class="fa-brands fa-product-hunt"></i>
+                <div class="mainServices__content">
+                    <h3>Sản Phẩm</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</h1>
+
+<img src="~/Content/images/backgroundchange.png" alt="" style="width:100%;height:669px">
+
+
+<div class="modal">
+    <div class="modal-overlay modal-toggle"></div>
+    <div class="modal-wrapper modal-transition">
+
+        <h4 class="text-danger">@Html.Raw(TempData["mgss"])</h4>
+
+        <div class="modal-header">
+            <button class="modal-close modal-toggle btn fa fa-times" style="outline: none;"></button>
+            <h2 class="modal-heading">Đặt lịch hẹn</h2>
+        </div>
+
+        <style>
+            .form-horizontal .control-label {
+                text-align: unset !important;
+                color:black;
+            }
+        </style>
+
+        <div class="modal-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @if (Session["Username"] != null)
+                    {
+                        <div style="display:none;">@Session["Username"]</div>
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.hoten, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.hoten, new { htmlAttributes = new { @class = "form-control", @style="color:black"}})
+                            @Html.ValidationMessageFor(model => model.hoten, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @style = "color:black" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.sdt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.sdt, new { htmlAttributes = new { @class = "form-control", @style = "color:black" } })
+                            @Html.ValidationMessageFor(model => model.sdt, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.diachi, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.diachi, new { htmlAttributes = new { @class = "form-control", @style = "color:black" } })
+                            @Html.ValidationMessageFor(model => model.diachi, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.tendichvu, htmlAttributes: new { @class = "control-label col-md-2"})
+                        <div class="col-md-12">
+                            <style>
+                                select.form-control:not([size]):not([multiple]) {
+                                    height: unset !important;
+                                }
+                            </style>
+                            <select id="loaidv" name="loaidv" class="form-control" style="color:black">
+                                <option value="Sản Phẩm">Sản Phẩm</option>
+                                <option value="Ngồn Gốc Xuất sứ">Ngồn Gốc, Xuất sứ...</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.tendichvu, "", new { @class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ngaydat, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            <input type="date" name="ngaydat" class="form-control" required style="color:black"/>
+                            @Html.ValidationMessageFor(model => model.ngaydat, "", new { @class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Xác Nhận" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="body">
+    <div class="container-fluid" style="padding: 0!important;">
+        <div style="background-image: url('../../Content/images/Group Chat.png')" class="service-banner">
+            <div class="boxservice">
+                <h3 class="h1-title">
+                    Green Frog CHẤT LƯỢNG, ĐẢM BẢO của các sản phẩm từ tự nhiên!
+                </h3>
+                <p>Với mong muốn được trở thành thương hiệu uy tín với người dùng, Green Frog mang đến những sản phẩm lẫn đến với tay người tiêu dùng để có cuộc sống tốt hơn.</p>
+
+                <button style="background-color:forestgreen" class="btn btn-danger mt-5 modal-toggle">Trao đổi ngay!</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4" style="padding: 15px!important;">
+            <div style="background-color: #32871F" class="service-list__content-box">
+                <img src="~/Content/images/god4.jpg" alt="">
+                <h3 class="h1-title">
+                    1. GREEN FROG - NƠI MUA SẢN PHẨM CHẤT LƯỢNG!
+                </h3>
+
+                <p>
+                    Không sợ hàng giả, sản phẩm hư hỏng, đảm bảo tính bền bĩ chất lượng được nhập khẩu từ nước ngoài yên tâm mua sản phẩm !
+                </p>
+
+            </div>
+        </div>
+        <div class="col-lg-4" style="padding: 15px!important;">
+            <div style="background-color: #32871F " class="service-list__content-box">
+                <img src="~/Content/images/god2.jpg" alt="">
+                <h3 class="h1-title">
+                    2. GREEN FROG - NƠI CUNG CẤP SẢN PHẨM ĐA DẠNG,... MỚI NHẤT!
+                </h3>
+
+                <p>
+                    Tại Green Frog, chúng tôi cung cấp mọi nhu cầu mà sản phẩm cần với giá cả hợp lý và chất lượng hàng đầu!
+                </p>
+
+                <p>
+                    Đa dạng mẫu mã từ các nhãn hiệu lớn trong và ngoài nước.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-4" style="padding: 15px!important;">
+            <div style="background-color: #32871F " class="service-list__content-box">
+                <img src="~/Content/images/Chat bot-amico.png" alt="">
+                <h3 class="h1-title">
+                    3. TRAO ĐỔI KHÁCH HÀNG... CHU ĐÁO, NHIỆT TÌNH!
+                </h3>
+
+                <p>
+                    Trao đổi về các sản phẩm và dịch vụ tốt nhất cho khách hàng ưu đãi khi mua số lượng lớn nhiệt tình và chu đáo
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="service-text mb30">
+        <div class="service-text__content">
+            <h2 class="h2-title">
+            </h2><h2 class="h2-title">Sản phẩm bảo vệ môi trường, chăm sóc, tận tâm trao đổi sản phẩm luôn sẵn sàng đón tiếp quý khách!</h2>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <img class="banner-service" src="~/Content/images/god3.jpg" alt="">
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    // Quick & dirty toggle to demonstrate modal toggle behavior
+    $(document).ready(function () {
+        $('.modal-toggle').on('click', function (e) {
+            e.preventDefault();
+            $('.modal').toggleClass('is-visible');
+        });
+    })
+
+</script>

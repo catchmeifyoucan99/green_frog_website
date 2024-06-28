@@ -1,0 +1,34 @@
+﻿@model greenfrog.Models.PayPalModel
+
+<body>
+    <form id="hiddenform" action=@Model.actionURL>
+        @Html.HiddenFor(model => model.cmd)
+        @Html.HiddenFor(model => model.business)
+        @Html.HiddenFor(model => model.no_shipping)
+        @Html.HiddenFor(model => model.@return)
+        @Html.HiddenFor(model => model.cancel_return)
+        @Html.HiddenFor(model => model.notify_url)
+        @Html.HiddenFor(model => model.currency_code)
+        @Html.HiddenFor(model => model.item_name)
+        @Html.HiddenFor(model => model.item_quantity)
+        @Html.HiddenFor(model => model.amount)
+    </form>
+
+    <div class="body">
+        <p style="text-align: center">
+            <h3>
+                Đang chuyển hướng đến trang thanh toán PayPal...
+            </h3>
+        </p>
+    </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+
+<script type="text/javascript" language="javascript">
+
+    $(this.document).ready(function () {
+        var form = $("form");
+        form.submit();
+    });
+</script>
+

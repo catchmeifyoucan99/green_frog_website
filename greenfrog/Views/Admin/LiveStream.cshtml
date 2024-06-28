@@ -1,0 +1,90 @@
+﻿@model greenfrog.Models.LiveStream
+
+@{
+    ViewBag.Title = "LiveStream";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h2>LiveStream</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <button><a href="https://trieuetam.github.io/livestream/" target="_blank">Tạo phòng LiveStream</a></button>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.noidunglive, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.noidunglive, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.noidunglive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.hinh, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.hinh, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.hinh, "", new { @class = "text-danger" })
+            <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                   style="display:none;"/>
+            <input type="button" id="btnUpload" value="Chọn" class="btn btn-success" />
+            <img id="pictureUpload"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.link, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.link, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.link, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $(function () {
+        $('#btnUpload').click(function () {
+            $('#fileUpload').trigger('click');
+        });
+    });
+    $('#fileUpload').change(function () {
+        if (window.FormData !== undefined) {
+            var fileUpload = $('#fileUpload').get(0);
+            var files = fileUpload.files;
+            var formData = new FormData();
+            formData.append('file', files[0]);
+
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Admin/ProcessUpload',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (urlImage) {
+
+                        $('#pictureUpload').attr('src', urlImage);
+                        $('#hinh').val(urlImage);
+                    },
+                    error: function (err) {
+                        alert('Error ', err.statusText);
+                    }
+                });
+        }
+    });
+</script>

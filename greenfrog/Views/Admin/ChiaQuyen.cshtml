@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "ChiaQuyen";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@if (Session["Staff"] != null)
+{
+    <div class="p-3 text-danger">Bạn không có quyền truy cập trang web này!!!</div>
+}
+else
+{
+<div class="col-12">
+    <h3 class="p-2">Quản lý phân quyền</h3>
+
+    <div class="body fix-width scroll-inner">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Họ tên
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Địa chỉ
+                </th>
+                <th>
+                    Sđt
+                </th>
+                <th>
+                    Ngày sinh
+                </th>
+                <th>
+                    Quyền
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var m in ViewBag.Main)
+            {
+                <tr>
+                    <td>
+                        @m.khachhang.hoten
+                    </td>
+                    <td>
+                        @m.khachhang.email
+                    </td>
+                    <td>
+                        @m.khachhang.diachi
+                    </td>
+                    <td>
+                        @m.khachhang.dienthoai
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(@m.khachhang.ngaysinh).ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @m.khachhangrole.RoleName
+                    </td>
+
+                    <td>
+                        @if (m.khachhang.tendangnhap != "admin")
+                        {
+                            @Html.ActionLink("Sửa", "SuaQuyen", new { id = @m.khachhang.makh }) <span>&nbsp;</span>
+                            @Html.ActionLink("Xóa", "XoaQuyen", new { id = @m.khachhang.makh })
+                        }
+                        else
+                        {
+                            <a href="#" class="text-secondary" style="cursor: default;">Sửa</a><span>&nbsp;</span>
+                            <a href="#" class="text-secondary" style="cursor: default;">Xóa</a>
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+}

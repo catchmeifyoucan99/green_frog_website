@@ -1,0 +1,63 @@
+﻿@model IEnumerable<greenfrog.Models.Giohang>
+
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    
+<div class="body fix-width scroll-inner">
+    <table class="table table-striped">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.masp)</th>
+            <th>@Html.DisplayNameFor(model => model.hinh)</th>
+            <th>Giá</th>
+            <th>@Html.DisplayNameFor(model => model.iSoluong)</th>
+            <th>Giảm giá</th>
+            <th>Giá km</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.tensp)</td>
+                <td><img src="@item.hinh" width="180" /></td>
+                @using (Html.BeginForm("CapnhapGiohang", "GioHang", new { @id = item.masp }))
+                {
+                    <td>@String.Format("{0:0,0}", item.giaban)</td>
+                    <td><input type="number" name="txtSoLg" value="@item.iSoluong" /></td>
+                    <h4 class="text-danger">@Html.Raw(TempData["msg"])</h4>
+                    <h4 class="text-danger">@Html.Raw(TempData["msgnull"])</h4>
+                    <td>@item.giamgia %</td>
+                    <td>@String.Format("{0:0,0}", item.dThanhtien)</td>
+                    <td>
+                        <a href="@Url.Action("Details", "SanPham", new { id = item.masp })">Chi tiết</a>
+                        | @Html.ActionLink("Xóa", "XoaGiohang", new { @id = item.masp })
+                    </td>
+                    <td><input type="submit" value="Cập nhập" class="btn btn-primary" /></td>
+                }
+            </tr>
+        }
+
+        <tr style="font-weight: bold; text-align: left; color: crimson;">
+            <td colspan="2">Số loại sản phẩm: @ViewBag.Tongsoluongsanpham</td>
+            <td colspan="2">Số lượng sản phẩm: @ViewBag.Tongsoluong</td>
+            <td colspan="4">Tổng tiền: @String.Format("{0:0,0}", @ViewBag.TongTien) VND</td>
+        </tr>
+
+        <tr style="font-weight: bold; text-align: right; color: unset;">
+            <td colspan="8">
+                @Html.ActionLink("Xóa giỏ hàng", "XoaTatCaGioHang")
+            </td>
+        </tr>
+
+        <tr style="font-weight: bold; text-align: right; color: unset;">
+            <td colspan="8">
+                @Html.ActionLink("Đặt hàng", "Dathang", "GioHang", null, new { id = "MenuButtons" })
+            </td>
+        </tr>
+    </table>
+
+</div>
+

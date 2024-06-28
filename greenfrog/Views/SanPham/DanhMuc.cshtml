@@ -1,0 +1,22 @@
+﻿@model greenfrog.Models.HomeModel
+
+
+@foreach (var item in Model.ListCategory.Where(x => x.ParentID == null))
+{
+    var child = Model.ListCategory.Where(x => x.ParentID == item.tendanhmuc);
+
+    <div class="body__mainTitle">
+        <h3> <div class="maincolor">@item.tendanhmuc</div></h3>
+        @if (child.Count() > 0)
+        {
+            foreach (var childItem in child)
+            {
+                <h4>
+                    <a href="@Url.Action("productDanhmuc", "SanPham", new { @id = @childItem.idDanhmuc })" class="text-secondary">@childItem.tendanhmuc</a>
+                </h4>
+            }
+
+
+        }
+    </div>
+}

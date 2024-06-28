@@ -1,0 +1,85 @@
+﻿@model greenfrog.Models.SanPham
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+<div class="col-lg-12 padding-8">
+
+    <dl class="dl-horizontal" style="overflow: hidden;">
+        <div class="menu_option-head2">Xóa sản phẩm</div>
+        <hr />
+        <dt>
+            @Html.DisplayNameFor(model => model.idDanhmuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idDanhmuc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tensp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tensp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hinh)
+        </dt>
+
+        <dd>
+            <img src="@Html.DisplayFor(model => model.hinh)" height="200px" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giaban)
+        </dt>
+
+        <dd>
+            @String.Format("{0:N0}", Model.giaban)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaycapnhat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaycapnhat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.soluongton)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.soluongton)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mota)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.mota)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color d-flex pb-2">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <div>
+                @Html.ActionLink("Quay lại", "QLSanPham", null, new { @class = "btn btn-default ml-2" })
+            </div>
+        </div>
+    }
+</div>
+
+
