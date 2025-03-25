@@ -1,8 +1,8 @@
-🌍 The Beginning of My Web Development Journey
-That first website was just the beginning. Since then, I've explored MVC architecture, backend development with C#, and database integration to build more complex and interactive applications.
-
 🐸 Green Frog – A Website for Environmental Protection
 For my Semester 3 project, I developed Green Frog, a web application focused on environmental protection. The project was built using C# and ASP.NET MVC, with a structured backend and an interactive frontend.
+
+🌍 The Beginning of My Web Development Journey
+That first website was just the beginning. Since then, I've explored MVC architecture, backend development with C#, and database integration to build more complex and interactive applications.
 
 🛒 E-commerce for Eco-Friendly Products
 The website was designed as an eco-friendly online store, where users could:
